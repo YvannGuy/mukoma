@@ -8,14 +8,14 @@
    ```bash
    ls -la public/ebook/
    ```
-   Le fichier doit s'appeler exactement : `COVER L'ART DE DIRIGER.pdf`
+   Le fichier doit s'appeler exactement : `COVER.pdf`
 
 2. **Vérifier les logs du serveur** :
    Quand vous essayez de télécharger, regardez les logs dans le terminal où `npm run dev` tourne.
    Vous devriez voir :
    ```
-   [DOWNLOAD] Tentative de lecture du fichier: /chemin/vers/public/ebook/COVER L'ART DE DIRIGER.pdf
-   [DOWNLOAD] Nom du fichier: COVER L'ART DE DIRIGER.pdf
+   [DOWNLOAD] Tentative de lecture du fichier: /chemin/vers/public/ebook/COVER.pdf
+   [DOWNLOAD] Nom du fichier: COVER.pdf
    ```
 
 3. **Si le fichier n'est pas trouvé** :
@@ -61,4 +61,5 @@
 Pour tester l'envoi d'email sans faire un paiement complet, vous pouvez créer une route de test (mais nous l'avons supprimée). 
 
 Alternative : Utilisez directement l'API Stripe pour créer une session de test et vérifier que le webhook est appelé.
+
 

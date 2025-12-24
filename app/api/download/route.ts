@@ -26,15 +26,17 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Chemin du PDF - nom exact du fichier dans public/ebook/
-    const pdfPath = process.env.EBOOK_PDF_URL || "COVER L'ART DE DIRIGER.pdf"
-    
-    // Si c'est une URL externe (http/https), rediriger
-    if (pdfPath.startsWith("http")) {
-      return NextResponse.redirect(pdfPath)
+    // Si EBOOK_PDF_URL est une URL externe (http/https), rediriger
+    if (process.env.EBOOK_PDF_URL && process.env.EBOOK_PDF_URL.startsWith("http")) {
+      console.log("[DOWNLOAD] Redirection vers URL externe:", process.env.EBOOK_PDF_URL)
+      return NextResponse.redirect(process.env.EBOOK_PDF_URL)
     }
-    
-    const pdfFileName = pdfPath.includes("/") ? pdfPath.split("/").pop()! : pdfPath
+
+    // Nom du fichier PDF dans public/ebook/
+    // Par défaut: COVER.pdf, peut être surchargé via EBOOK_PDF_URL
+    const pdfFileName = process.env.EBOOK_PDF_URL 
+      ? (process.env.EBOOK_PDF_URL.split("/").pop() || "COVER.pdf")
+      : "COVER.pdf"
 
     // Si c'est un chemin local, lire le fichier depuis public/ebook/
     try {

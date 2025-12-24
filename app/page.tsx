@@ -32,12 +32,12 @@ export default function HomePage() {
         productId={selectedProductId}
       />
       {/* Hero Section */}
-      <section className="relative container py-24 md:py-32">
+      <section className="relative container pt-20 md:pt-24 pb-0">
         {/* Dégradé de fond */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1a1612] via-[#1a1612] to-amber-950/20 opacity-100 -z-10"></div>
+        <div className="absolute inset-0 opacity-100 -z-10" style={{ background: 'radial-gradient(circle at 50% 30%, #2d2823 0%, #1a1612 40%, #1a1612 100%)' }}></div>
         <div className="relative grid md:grid-cols-2 gap-12 items-center">
           {/* Left side - Text content */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-[var(--font-serif)] font-bold leading-tight">
               L'Art de Diriger sa{" "}
               <span className="text-amber-400">Nouvelle Année</span>
@@ -48,7 +48,7 @@ export default function HomePage() {
             <p className="text-base sm:text-lg text-white/60">
               Par Philippe Mukoma Weto
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
               <Button 
                 onClick={() => {
                   setSelectedProductId("ebook-standard")
@@ -70,16 +70,16 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
-          {/* Right side - Book cover slider */}
-          <div className="relative">
-            <ImageSlider
-              images={[
-                "/images/hero/COVER L'ART DE DIRIGER-01.jpg",
-                "/images/hero/COVER L'ART DE DIRIGER-03.jpg"
-              ]}
-              alt="Couverture du livre L'Art de Diriger sa Nouvelle Année"
-              autoPlay={true}
-              interval={4000}
+          {/* Right side - Author photo */}
+          <div className="relative w-full max-w-md mx-auto">
+            <Image
+              src="/images/hero/MUKO.png"
+              alt="Philippe Mukoma Weto"
+              width={400}
+              height={600}
+              className="w-full h-auto rounded-lg"
+              style={{ objectFit: 'contain' }}
+              priority
             />
           </div>
         </div>
@@ -272,48 +272,62 @@ export default function HomePage() {
       </section>
 
       {/* Offres */}
-      <section id="offres" className="container py-24">
-          <ScrollAnimation direction="fade">
-            <h2 className="text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4">
-              Offre
-            </h2>
-            <p className="text-xl text-center text-white/70 mb-16">
-              Accédez à votre ebook dès maintenant
-            </p>
+      <section id="acheter-ebook" className="container py-24">
+        <ScrollAnimation direction="fade">
+          <h2 className="text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4">
+            Offre
+          </h2>
+          <p className="text-xl text-center text-white/70 mb-12">
+            Accédez à votre ebook dès maintenant
+          </p>
+        </ScrollAnimation>
+        <div className="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto mb-12">
+          {/* Left side - Book cover slider */}
+          <ScrollAnimation direction="left" delay={0}>
+            <ImageSlider
+              images={[
+                "/images/hero/COVER L'ART DE DIRIGER-01.jpg",
+                "/images/hero/COVER L'ART DE DIRIGER-03.jpg"
+              ]}
+              alt="Couverture du livre L'Art de Diriger sa Nouvelle Année"
+              autoPlay={true}
+              interval={4000}
+              enableZoom={true}
+            />
           </ScrollAnimation>
-        <div className="flex justify-center max-w-2xl mx-auto">
-          <ScrollAnimation direction="up" delay={0}>
+          {/* Right side - Pricing card */}
+          <ScrollAnimation direction="right" delay={100}>
             <Card className="bg-[#1a1612] border-2 border-amber-400/50 w-full">
-            <CardHeader>
-              <CardTitle className="text-2xl font-semibold text-white text-center">Ebook complet</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="text-5xl font-bold text-white text-center">27€</div>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-3">
-                  <Check className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-                  <span className="text-white/80">Ebook complet PDF + EPUB</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-                  <span className="text-white/80">Accès à vie</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-                  <span className="text-white/80">Téléchargement immédiat</span>
-                </li>
-              </ul>
-              <Button 
-                onClick={() => {
-                  setSelectedProductId("ebook-standard")
-                  setIsEmailModalOpen(true)
-                }}
-                className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold py-6"
-              >
-                Acheter maintenant
-              </Button>
-            </CardContent>
-          </Card>
+              <CardHeader>
+                <CardTitle className="text-2xl font-semibold text-white text-center">Ebook complet</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="text-5xl font-bold text-white text-center">27€</div>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3">
+                    <Check className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
+                    <span className="text-white/80">Ebook complet PDF + EPUB</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Check className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
+                    <span className="text-white/80">Accès à vie</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Check className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
+                    <span className="text-white/80">Téléchargement immédiat</span>
+                  </li>
+                </ul>
+                <Button 
+                  onClick={() => {
+                    setSelectedProductId("ebook-standard")
+                    setIsEmailModalOpen(true)
+                  }}
+                  className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold py-6"
+                >
+                  Acheter maintenant
+                </Button>
+              </CardContent>
+            </Card>
           </ScrollAnimation>
         </div>
       </section>

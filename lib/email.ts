@@ -1,5 +1,9 @@
 import { Resend } from 'resend'
+import { getDownloadEmailTemplate, EmailTemplateVariables } from './email-templates'
 
+/**
+ * Crée et retourne une instance du client Resend
+ */
 function getResendClient() {
   const apiKey = process.env.RESEND_API_KEY
   if (!apiKey) {
@@ -8,59 +12,68 @@ function getResendClient() {
   return new Resend(apiKey)
 }
 
-export async function sendDownloadEmail(email: string, downloadUrl: string) {
+/**
+ * Détermine l'adresse email d'expéditeur à utiliser
+ * Gère automatiquement les domaines publics non vérifiés
+ */
+function getEmailFrom(): string {
+  let emailFrom = process.env.EMAIL_FROM || 'onboarding@resend.dev'
+  
+  // Si l'utilisateur a configuré un email avec un domaine public, utiliser le domaine de test
+  if (emailFrom.includes('@gmail.com') || 
+      emailFrom.includes('@yahoo.com') || 
+      emailFrom.includes('@hotmail.com')) {
+    console.log(`[EMAIL] ⚠️ Domaine public détecté, utilisation de onboarding@resend.dev`)
+    return 'onboarding@resend.dev'
+  }
+  
+  return emailFrom
+}
+
+/**
+ * Envoie un email avec le lien de téléchargement de l'ebook
+ * 
+ * @param email - Adresse email du destinataire
+ * @param downloadUrl - URL sécurisée de téléchargement
+ * @param options - Options supplémentaires (firstName, lastName, productName)
+ * @returns Résultat de l'envoi avec success/error
+ */
+export async function sendDownloadEmail(
+  email: string, 
+  downloadUrl: string,
+  options?: {
+    firstName?: string
+    lastName?: string
+    productName?: string
+  }
+) {
   try {
     console.log(`[EMAIL] Tentative d'envoi à ${email}`)
     console.log(`[EMAIL] RESEND_API_KEY présent: ${!!process.env.RESEND_API_KEY}`)
     
-    // Utiliser le domaine de test de Resend si aucun domaine n'est configuré ou si c'est gmail.com
-    let emailFrom = process.env.EMAIL_FROM || 'onboarding@resend.dev'
-    
-    // Si l'utilisateur a configuré un email gmail.com, utiliser le domaine de test
-    if (emailFrom.includes('@gmail.com') || emailFrom.includes('@yahoo.com') || emailFrom.includes('@hotmail.com')) {
-      console.log(`[EMAIL] ⚠️ Domaine public détecté, utilisation de onboarding@resend.dev`)
-      emailFrom = 'onboarding@resend.dev'
-    }
-    
+    const emailFrom = getEmailFrom()
     console.log(`[EMAIL] EMAIL_FROM utilisé: ${emailFrom}`)
     console.log(`[EMAIL] URL de téléchargement: ${downloadUrl}`)
     
+    // Préparer les variables pour le template
+    const templateVariables: EmailTemplateVariables = {
+      email,
+      downloadUrl,
+      firstName: options?.firstName,
+      lastName: options?.lastName,
+      productName: options?.productName || "L'Art de Diriger sa Nouvelle Année"
+    }
+    
+    // Générer le contenu HTML à partir du template
+    const htmlContent = getDownloadEmailTemplate(templateVariables)
+    
+    // Envoyer l'email via Resend
     const resend = getResendClient()
     const { data, error } = await resend.emails.send({
       from: emailFrom,
       to: email,
-      subject: 'Votre ebook "L\'Art de Diriger sa Nouvelle Année" est prêt !',
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="utf-8">
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .button { display: inline-block; padding: 12px 24px; background-color: #f59e0b; color: #000; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 20px 0; }
-            .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <h1>Merci pour votre achat !</h1>
-            <p>Bonjour,</p>
-            <p>Votre achat de l'ebook <strong>"L'Art de Diriger sa Nouvelle Année"</strong> a été confirmé.</p>
-            <p>Cliquez sur le bouton ci-dessous pour télécharger votre ebook :</p>
-            <p style="text-align: center;">
-              <a href="${downloadUrl}" class="button">Télécharger mon ebook</a>
-            </p>
-            <p><strong>Important :</strong> Ce lien est valide pendant 24 heures et peut être utilisé jusqu'à 5 fois.</p>
-            <p>Si vous avez des questions, n'hésitez pas à nous contacter.</p>
-            <div class="footer">
-              <p>Cordialement,<br>L'équipe Mukoma</p>
-              <p>Philippe Mukoma Weto</p>
-            </div>
-          </div>
-        </body>
-        </html>
-      `,
+      subject: `Votre ebook "${templateVariables.productName}" est prêt !`,
+      html: htmlContent,
     })
 
     if (error) {
@@ -80,7 +93,7 @@ export async function sendDownloadEmail(email: string, downloadUrl: string) {
     console.log('[EMAIL] Réponse Resend:', JSON.stringify(data, null, 2))
     return { success: true, data }
   } catch (error: any) {
-    console.error('Erreur envoi email:', error.message)
+    console.error('[EMAIL] ❌ Exception lors de l\'envoi:', error.message)
     return { success: false, error: error.message }
   }
 }

@@ -54,12 +54,12 @@ npm install
    EMAIL_FROM=noreply@yourdomain.com
    
    NEXT_PUBLIC_SITE_URL=http://localhost:3000
-   EBOOK_PDF_URL=/ebook/COVER L'ART DE DIRIGER.pdf
+   EBOOK_PDF_URL=/ebook/COVER.pdf
    ```
 
 ### 5. Ajouter votre PDF
 
-Placez votre fichier PDF dans `public/ebook/COVER L'ART DE DIRIGER.pdf` ou configurez `EBOOK_PDF_URL` avec une URL externe (CDN, S3, etc.)
+Placez votre fichier PDF dans `public/ebook/COVER.pdf` ou configurez `EBOOK_PDF_URL` avec une URL externe (CDN, S3, etc.)
 
 ### 6. Lancer le projet
 
@@ -91,7 +91,7 @@ mukoma/
 │   └── tokens.ts                            # Gestion des tokens de téléchargement
 └── public/
     └── ebook/
-        └── COVER L'ART DE DIRIGER.pdf       # Votre fichier PDF
+        └── COVER.pdf                         # Votre fichier PDF
 ```
 
 ## 🔄 Flux de paiement
@@ -135,7 +135,7 @@ Alternative : Vous pouvez modifier `lib/email.ts` pour utiliser un autre service
 
 ## 📝 Notes importantes
 
-- Le fichier PDF doit être nommé `COVER L'ART DE DIRIGER.pdf` dans `public/ebook/` ou configuré via `EBOOK_PDF_URL`
+- Le fichier PDF doit être nommé `COVER.pdf` dans `public/ebook/` ou configuré via `EBOOK_PDF_URL`
 - Les webhooks Stripe doivent être configurés en production avec l'URL de votre site
 - En production, utilisez les clés Stripe en mode `live` (sans `_test`)
 - Configurez votre domaine d'envoi dans Resend pour la production

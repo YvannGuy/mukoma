@@ -4,15 +4,15 @@ Placez votre fichier PDF ici.
 
 ## Fichier requis
 
-- **Nom** : `COVER L'ART DE DIRIGER.pdf`
-- **Emplacement** : `public/ebook/COVER L'ART DE DIRIGER.pdf`
+- **Nom** : `COVER.pdf`
+- **Emplacement** : `public/ebook/COVER.pdf`
 
 ## Alternative
 
 Si vous préférez héberger le PDF ailleurs (CDN, S3, etc.), configurez la variable d'environnement :
 
 ```env
-EBOOK_PDF_URL=https://votre-cdn.com/ebook/COVER L'ART DE DIRIGER.pdf
+EBOOK_PDF_URL=https://votre-cdn.com/ebook/COVER.pdf
 ```
 
 ## Sécurité
