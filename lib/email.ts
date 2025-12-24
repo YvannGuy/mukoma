@@ -10,9 +10,23 @@ function getResendClient() {
 
 export async function sendDownloadEmail(email: string, downloadUrl: string) {
   try {
+    console.log(`[EMAIL] Tentative d'envoi à ${email}`)
+    console.log(`[EMAIL] RESEND_API_KEY présent: ${!!process.env.RESEND_API_KEY}`)
+    
+    // Utiliser le domaine de test de Resend si aucun domaine n'est configuré ou si c'est gmail.com
+    let emailFrom = process.env.EMAIL_FROM || 'onboarding@resend.dev'
+    
+    // Si l'utilisateur a configuré un email gmail.com, utiliser le domaine de test
+    if (emailFrom.includes('@gmail.com') || emailFrom.includes('@yahoo.com') || emailFrom.includes('@hotmail.com')) {
+      console.log(`[EMAIL] ⚠️ Le domaine ${emailFrom.split('@')[1]} ne peut pas être utilisé. Utilisation du domaine de test Resend.`)
+      emailFrom = 'onboarding@resend.dev'
+    }
+    
+    console.log(`[EMAIL] EMAIL_FROM utilisé: ${emailFrom}`)
+    
     const resend = getResendClient()
     const { data, error } = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
+      from: emailFrom,
       to: email,
       subject: 'Votre ebook "L\'Art de Diriger sa Nouvelle Année" est prêt !',
       html: `
@@ -49,13 +63,27 @@ export async function sendDownloadEmail(email: string, downloadUrl: string) {
     })
 
     if (error) {
-      console.error('Erreur envoi email:', error)
-      return { success: false, error }
+      console.error('[EMAIL] ❌ Erreur Resend:', JSON.stringify(error, null, 2))
+      
+      // Message d'erreur plus clair pour les problèmes de domaine
+      let errorMessage: any = error
+      if (typeof error === 'object' && error !== null) {
+        if ('message' in error && typeof error.message === 'string') {
+          errorMessage = error.message
+        } else if ('statusCode' in error && (error as any).statusCode === 403) {
+          errorMessage = 'Domaine non vérifié. Utilisez "onboarding@resend.dev" pour les tests ou vérifiez votre domaine dans Resend.'
+        }
+      }
+      
+      return { success: false, error: errorMessage }
     }
 
+    console.log('[EMAIL] ✅ Email envoyé avec succès')
+    console.log('[EMAIL] Réponse Resend:', JSON.stringify(data, null, 2))
     return { success: true, data }
   } catch (error: any) {
-    console.error('Erreur envoi email:', error)
+    console.error('[EMAIL] ❌ Exception lors de l\'envoi:', error.message)
+    console.error('[EMAIL] Stack:', error.stack)
     return { success: false, error: error.message }
   }
 }

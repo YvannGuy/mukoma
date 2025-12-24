@@ -10,9 +10,12 @@ import Image from "next/image"
 import { Check, Eye, Crown, Shield, Compass, Book, Lock, Zap } from "lucide-react"
 import { ImageSlider } from "@/components/ImageSlider"
 import { ImageModal } from "@/components/ImageModal"
+import { EmailModal } from "@/components/EmailModal"
 
 export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false)
+  const [selectedProductId, setSelectedProductId] = useState("ebook-standard")
 
   return (
     <div className="flex flex-col bg-[#1a1612] text-white min-h-screen">
@@ -24,6 +27,11 @@ export default function HomePage() {
           onClose={() => setIsModalOpen(false)}
         />
       )}
+      <EmailModal
+        isOpen={isEmailModalOpen}
+        onClose={() => setIsEmailModalOpen(false)}
+        productId={selectedProductId}
+      />
       {/* Hero Section */}
       <section className="container py-24 md:py-32">
         <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -40,16 +48,16 @@ export default function HomePage() {
               Par Philippe Mukoma Weto
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4">
-              <form action="/api/stripe/create-checkout" method="POST">
-                <input type="hidden" name="product_id" value="ebook-standard" />
-                <Button 
-                  type="submit" 
-                  size="lg" 
-                  className="bg-amber-500 hover:bg-amber-600 text-black font-semibold text-lg px-8 py-6"
-                >
-                  Acheter l'ebook
-                </Button>
-              </form>
+              <Button 
+                onClick={() => {
+                  setSelectedProductId("ebook-standard")
+                  setIsEmailModalOpen(true)
+                }}
+                size="lg" 
+                className="bg-amber-500 hover:bg-amber-600 text-black font-semibold text-lg px-8 py-6"
+              >
+                Acheter l'ebook
+              </Button>
               <Link href="/fondation">
                 <Button 
                   size="lg" 
@@ -269,15 +277,15 @@ export default function HomePage() {
                   <span className="text-white/80">Téléchargement immédiat</span>
                 </li>
               </ul>
-              <form action="/api/stripe/create-checkout" method="POST">
-                <input type="hidden" name="product_id" value="ebook-standard" />
-                <Button 
-                  type="submit" 
-                  className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold py-6"
-                >
-                  Acheter maintenant
-                </Button>
-              </form>
+              <Button 
+                onClick={() => {
+                  setSelectedProductId("ebook-standard")
+                  setIsEmailModalOpen(true)
+                }}
+                className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold py-6"
+              >
+                Acheter maintenant
+              </Button>
             </CardContent>
           </Card>
           <Card className="bg-[#1a1612] border-2 border-amber-400/50 relative">
@@ -305,15 +313,15 @@ export default function HomePage() {
                   <span className="text-white/80">Impact social direct</span>
                 </li>
               </ul>
-              <form action="/api/stripe/create-checkout" method="POST">
-                <input type="hidden" name="product_id" value="ebook-bonus" />
-                <Button 
-                  type="submit" 
-                  className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold py-6"
-                >
-                  Acheter et soutenir
-                </Button>
-              </form>
+              <Button 
+                onClick={() => {
+                  setSelectedProductId("ebook-bonus")
+                  setIsEmailModalOpen(true)
+                }}
+                className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold py-6"
+              >
+                Acheter et soutenir
+              </Button>
             </CardContent>
           </Card>
         </div>
@@ -404,16 +412,16 @@ export default function HomePage() {
           <p className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto px-4">
             Ne laissez pas une année de plus passer sans prendre le contrôle de votre destinée. Le moment d'agir, c'est maintenant.
           </p>
-          <form action="/api/stripe/create-checkout" method="POST">
-            <input type="hidden" name="product_id" value="ebook-standard" />
-            <Button 
-              type="submit" 
-              size="lg" 
-              className="bg-amber-500 hover:bg-amber-600 text-black font-semibold text-lg px-12 py-6"
-            >
-              Acheter maintenant
-            </Button>
-          </form>
+          <Button 
+            onClick={() => {
+              setSelectedProductId("ebook-standard")
+              setIsEmailModalOpen(true)
+            }}
+            size="lg" 
+            className="bg-amber-500 hover:bg-amber-600 text-black font-semibold text-lg px-12 py-6"
+          >
+            Acheter maintenant
+          </Button>
         </div>
       </section>
     </div>

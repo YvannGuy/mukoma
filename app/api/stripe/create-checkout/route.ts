@@ -10,6 +10,14 @@ export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData()
     const productId = formData.get("product_id") as string || "ebook-standard"
+    const email = formData.get("email") as string
+
+    if (!email) {
+      return NextResponse.json(
+        { error: "Email requis" },
+        { status: 400 }
+      )
+    }
 
     // Prix en centimes (27€ pour standard, 47€ pour bonus)
     const priceMap: Record<string, number> = {
@@ -34,12 +42,21 @@ export async function POST(request: NextRequest) {
         },
       ],
       mode: "payment",
+      customer_email: email, // Pré-remplir l'email dans Stripe Checkout
       success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/cancel`,
       metadata: {
         product_id: productId,
+        customer_email: email, // Stocker l'email dans les métadonnées aussi
       },
     })
+
+    // Si c'est une requête fetch (avec header Accept), retourner JSON
+    // Sinon, rediriger (pour compatibilité avec les formulaires HTML)
+    const acceptHeader = request.headers.get("accept") || ""
+    if (acceptHeader.includes("application/json") || !session.url) {
+      return NextResponse.json({ url: session.url })
+    }
 
     return NextResponse.redirect(session.url!, { status: 303 })
   } catch (error: any) {

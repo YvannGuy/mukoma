@@ -37,10 +37,17 @@ export async function POST(request: NextRequest) {
     const session = event.data.object as Stripe.Checkout.Session
 
     try {
-      const email = session.customer_email || session.customer_details?.email
+      // Récupérer l'email depuis customer_email, customer_details, ou metadata
+      const email = session.customer_email || 
+                    session.customer_details?.email || 
+                    session.metadata?.customer_email
 
       if (!email) {
-        console.error("Aucun email trouvé dans la session Stripe")
+        console.error("Aucun email trouvé dans la session Stripe", {
+          customer_email: session.customer_email,
+          customer_details: session.customer_details,
+          metadata: session.metadata
+        })
         return NextResponse.json(
           { error: "No email found in session" },
           { status: 400 }
@@ -54,20 +61,27 @@ export async function POST(request: NextRequest) {
       const downloadUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/telechargement?token=${token}`
 
       // Envoyer l'email avec le lien de téléchargement
+      console.log(`[WEBHOOK] Tentative d'envoi d'email à ${email} pour la session ${session.id}`)
+      console.log(`[WEBHOOK] URL de téléchargement: ${downloadUrl}`)
+      console.log(`[WEBHOOK] RESEND_API_KEY configuré: ${!!process.env.RESEND_API_KEY}`)
+      console.log(`[WEBHOOK] EMAIL_FROM: ${process.env.EMAIL_FROM || 'onboarding@resend.dev'}`)
+      
       try {
         const emailResult = await sendDownloadEmail(email, downloadUrl)
         if (!emailResult.success) {
-          console.error("Erreur envoi email:", emailResult.error)
+          console.error("[WEBHOOK] ❌ Erreur envoi email:", JSON.stringify(emailResult.error, null, 2))
           // On continue quand même, le token est valide
         } else {
-          console.log(`Email envoyé avec succès à ${email}`)
+          console.log(`[WEBHOOK] ✅ Email envoyé avec succès à ${email}`)
+          console.log(`[WEBHOOK] Réponse Resend:`, JSON.stringify(emailResult.data, null, 2))
         }
       } catch (emailError: any) {
-        console.error("Erreur configuration email:", emailError.message)
+        console.error("[WEBHOOK] ❌ Erreur configuration email:", emailError.message)
+        console.error("[WEBHOOK] Stack:", emailError.stack)
         // On continue quand même, le token est valide - l'utilisateur peut utiliser le lien directement
       }
 
-      console.log(`Email envoyé à ${email} pour la session ${session.id}`)
+      console.log(`[WEBHOOK] Traitement terminé pour la session ${session.id}`)
     } catch (error: any) {
       console.error("Erreur traitement webhook:", error)
       return NextResponse.json(
