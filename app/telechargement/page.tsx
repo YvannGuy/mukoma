@@ -49,7 +49,7 @@ function TelechargementContent() {
         const url = window.URL.createObjectURL(blob)
         const a = document.createElement("a")
         a.href = url
-        a.download = "L'Art de Diriger sa Nouvelle Année.pdf"
+        a.download = "COVER L'ART DE DIRIGER.pdf"
         document.body.appendChild(a)
         a.click()
         window.URL.revokeObjectURL(url)

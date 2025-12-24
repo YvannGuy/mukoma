@@ -20,14 +20,12 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col bg-[#1a1612] text-white min-h-screen">
-      {isModalOpen && (
-        <ImageModal
-          src="/images/book/SIMULATION.jpg"
-          alt="Aperçu du livre en 3D"
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
+      <ImageModal
+        src="/images/book/SIMULATION.jpg"
+        alt="Aperçu du livre en 3D"
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
       <EmailModal
         isOpen={isEmailModalOpen}
         onClose={() => setIsEmailModalOpen(false)}
@@ -207,7 +205,7 @@ export default function HomePage() {
       </section>
 
       {/* Aperçu du livre */}
-      <section className="bg-black/30 py-24">
+      <section id="offres" className="bg-black/30 py-24">
         <div className="container">
           <ScrollAnimation direction="up">
             <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -277,20 +275,20 @@ export default function HomePage() {
       <section id="offres" className="container py-24">
           <ScrollAnimation direction="fade">
             <h2 className="text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4">
-              Offres
+              Offre
             </h2>
             <p className="text-xl text-center text-white/70 mb-16">
-              Choisissez votre parcours vers la maîtrise
+              Accédez à votre ebook dès maintenant
             </p>
           </ScrollAnimation>
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          <ScrollAnimation direction="left" delay={0}>
-            <Card className="bg-[#1a1612] border-amber-900/30">
+        <div className="flex justify-center max-w-2xl mx-auto">
+          <ScrollAnimation direction="up" delay={0}>
+            <Card className="bg-[#1a1612] border-2 border-amber-400/50 w-full">
             <CardHeader>
-              <CardTitle className="text-2xl font-semibold text-white">Ebook seul</CardTitle>
+              <CardTitle className="text-2xl font-semibold text-white text-center">Ebook complet</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="text-5xl font-bold text-white">27€</div>
+              <div className="text-5xl font-bold text-white text-center">27€</div>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <Check className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
@@ -313,44 +311,6 @@ export default function HomePage() {
                 className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold py-6"
               >
                 Acheter maintenant
-              </Button>
-            </CardContent>
-          </Card>
-          </ScrollAnimation>
-          <ScrollAnimation direction="right" delay={100}>
-            <Card className="bg-[#1a1612] border-2 border-amber-400/50 relative">
-            <div className="absolute -top-3 right-6">
-              <Badge className="bg-amber-500 text-black font-semibold px-3 py-1">
-                Recommandé
-              </Badge>
-            </div>
-            <CardHeader>
-              <CardTitle className="text-2xl font-semibold text-white">Ebook + Soutien Fondation</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="text-5xl font-bold text-white">47€</div>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-3">
-                  <Check className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-                  <span className="text-white/80">Tout de l'offre Ebook</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-                  <span className="text-white/80">Soutien à la Fondation (20€)</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-                  <span className="text-white/80">Impact social direct</span>
-                </li>
-              </ul>
-              <Button 
-                onClick={() => {
-                  setSelectedProductId("ebook-bonus")
-                  setIsEmailModalOpen(true)
-                }}
-                className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold py-6"
-              >
-                Acheter et soutenir
               </Button>
             </CardContent>
           </Card>

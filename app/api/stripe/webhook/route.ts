@@ -61,13 +61,22 @@ export async function POST(request: NextRequest) {
       const downloadUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/telechargement?token=${token}`
 
       // Envoyer l'email avec le lien de téléchargement
+      console.log(`[WEBHOOK] Tentative d'envoi d'email à ${email}`)
+      console.log(`[WEBHOOK] URL de téléchargement: ${downloadUrl}`)
+      console.log(`[WEBHOOK] RESEND_API_KEY configuré: ${!!process.env.RESEND_API_KEY}`)
+      console.log(`[WEBHOOK] EMAIL_FROM: ${process.env.EMAIL_FROM || 'onboarding@resend.dev'}`)
+      console.log(`[WEBHOOK] NEXT_PUBLIC_SITE_URL: ${process.env.NEXT_PUBLIC_SITE_URL}`)
+      
       try {
         const emailResult = await sendDownloadEmail(email, downloadUrl)
         if (!emailResult.success) {
-          console.error("Erreur envoi email:", emailResult.error)
+          console.error("[WEBHOOK] ❌ Erreur envoi email:", emailResult.error)
+        } else {
+          console.log(`[WEBHOOK] ✅ Email envoyé avec succès à ${email}`)
         }
       } catch (emailError: any) {
-        console.error("Erreur envoi email:", emailError.message)
+        console.error("[WEBHOOK] ❌ Exception envoi email:", emailError.message)
+        console.error("[WEBHOOK] Stack:", emailError.stack)
       }
     } catch (error: any) {
       console.error("Erreur traitement webhook:", error)

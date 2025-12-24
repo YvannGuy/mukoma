@@ -16,9 +16,16 @@ export function ScrollAnimation({
   direction = "up",
 }: ScrollAnimationProps) {
   const [isVisible, setIsVisible] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted || typeof window === "undefined") return
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -33,16 +40,17 @@ export function ScrollAnimation({
       }
     )
 
-    if (ref.current) {
-      observer.observe(ref.current)
+    const currentRef = ref.current
+    if (currentRef) {
+      observer.observe(currentRef)
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current)
+      if (currentRef) {
+        observer.unobserve(currentRef)
       }
     }
-  }, [delay])
+  }, [delay, mounted])
 
   const directionClasses = {
     up: "translate-y-8 opacity-0",
@@ -60,12 +68,16 @@ export function ScrollAnimation({
     fade: "opacity-100",
   }
 
+  // Toujours rendre avec les mêmes classes pour éviter les problèmes d'hydratation
+  // L'animation sera activée après le montage côté client
+  const animationClass = mounted && isVisible 
+    ? visibleClasses[direction] 
+    : directionClasses[direction]
+
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ease-out ${
-        isVisible ? visibleClasses[direction] : directionClasses[direction]
-      } ${className}`}
+      className={`transition-all duration-700 ease-out ${animationClass} ${className}`}
     >
       {children}
     </div>

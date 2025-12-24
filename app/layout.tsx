@@ -24,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" className="dark" suppressHydrationWarning>
-      <body className={`${inter.variable} ${playfair.variable} ${inter.className} bg-[#1a1612] text-white`}>
+      <body className={`${inter.variable} ${playfair.variable} ${inter.className} bg-[#1a1612] text-white`} suppressHydrationWarning>
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 
 export function Header() {
   return (
-    <header className="border-b border-amber-900/20 bg-[#1a1612]">
+    <header className="sticky top-0 z-50 border-b border-amber-900/20 bg-black/30 backdrop-blur-sm">
       <div className="container flex h-16 items-center justify-between px-4">
         <Link href="/" className="text-base sm:text-xl font-[var(--font-serif)] font-bold text-white truncate max-w-[200px] sm:max-w-none">
           L'Art de Diriger sa Nouvelle Année
