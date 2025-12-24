@@ -11,6 +11,7 @@ import { Check, Eye, Crown, Shield, Compass, Book, Lock, Zap } from "lucide-reac
 import { ImageSlider } from "@/components/ImageSlider"
 import { ImageModal } from "@/components/ImageModal"
 import { EmailModal } from "@/components/EmailModal"
+import { ScrollAnimation } from "@/components/ScrollAnimation"
 
 export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -33,8 +34,10 @@ export default function HomePage() {
         productId={selectedProductId}
       />
       {/* Hero Section */}
-      <section className="container py-24 md:py-32">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+      <section className="relative container py-24 md:py-32">
+        {/* Dégradé de fond */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1a1612] via-[#1a1612] to-amber-950/20 opacity-100 -z-10"></div>
+        <div className="relative grid md:grid-cols-2 gap-12 items-center">
           {/* Left side - Text content */}
           <div className="space-y-8">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-[var(--font-serif)] font-bold leading-tight">
@@ -87,106 +90,127 @@ export default function HomePage() {
       {/* À qui s'adresse ce livre */}
       <section className="bg-black/30 py-24">
         <div className="container">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4 px-4">
-            À qui s'adresse ce livre
-          </h2>
-          <p className="text-lg sm:text-xl text-center text-white/70 mb-12 sm:mb-16 max-w-3xl mx-auto px-4">
-            Pour ceux qui refusent de subir et choisissent de diriger leur destinée
-          </p>
+          <ScrollAnimation direction="fade">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4 px-4">
+              À qui s'adresse ce livre
+            </h2>
+            <p className="text-lg sm:text-xl text-center text-white/70 mb-12 sm:mb-16 max-w-3xl mx-auto px-4">
+              Pour ceux qui refusent de subir et choisissent de diriger leur destinée
+            </p>
+          </ScrollAnimation>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="bg-[#1a1612] border-amber-900/30">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
-                  <Eye className="h-8 w-8 text-amber-400" />
-                </div>
-                <CardTitle className="text-xl font-semibold text-white">Clarté de vision</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-white/70 text-center">
-                  Développer une vision claire de votre avenir et des étapes pour l'atteindre.
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="bg-[#1a1612] border-amber-900/30">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
-                  <Crown className="h-8 w-8 text-amber-400" />
-                </div>
-                <CardTitle className="text-xl font-semibold text-white">Leadership personnel</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-white/70 text-center">
-                  Maîtriser l'art de se diriger avant de prétendre diriger les autres.
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="bg-[#1a1612] border-amber-900/30">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
-                  <Shield className="h-8 w-8 text-amber-400" />
-                </div>
-                <CardTitle className="text-xl font-semibold text-white">Discipline intérieure</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-white/70 text-center">
-                  Forger une discipline qui transforme les intentions en actions concrètes.
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="bg-[#1a1612] border-amber-900/30">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
-                  <Compass className="h-8 w-8 text-amber-400" />
-                </div>
-                <CardTitle className="text-xl font-semibold text-white">Direction spirituelle</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-white/70 text-center">
-                  Aligner vos objectifs avec votre mission spirituelle profonde.
-                </p>
-              </CardContent>
-            </Card>
+            <ScrollAnimation direction="up" delay={0}>
+              <Card className="bg-[#1a1612] border-amber-900/30">
+                <CardHeader className="text-center">
+                  <div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
+                    <Eye className="h-8 w-8 text-amber-400" />
+                  </div>
+                  <CardTitle className="text-xl font-semibold text-white">Clarté de vision</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-white/70 text-center">
+                    Développer une vision claire de votre avenir et des étapes pour l'atteindre.
+                  </p>
+                </CardContent>
+              </Card>
+            </ScrollAnimation>
+            <ScrollAnimation direction="up" delay={100}>
+              <Card className="bg-[#1a1612] border-amber-900/30">
+                <CardHeader className="text-center">
+                  <div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
+                    <Crown className="h-8 w-8 text-amber-400" />
+                  </div>
+                  <CardTitle className="text-xl font-semibold text-white">Leadership personnel</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-white/70 text-center">
+                    Maîtriser l'art de se diriger avant de prétendre diriger les autres.
+                  </p>
+                </CardContent>
+              </Card>
+            </ScrollAnimation>
+            <ScrollAnimation direction="up" delay={200}>
+              <Card className="bg-[#1a1612] border-amber-900/30">
+                <CardHeader className="text-center">
+                  <div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
+                    <Shield className="h-8 w-8 text-amber-400" />
+                  </div>
+                  <CardTitle className="text-xl font-semibold text-white">Discipline intérieure</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-white/70 text-center">
+                    Forger une discipline qui transforme les intentions en actions concrètes.
+                  </p>
+                </CardContent>
+              </Card>
+            </ScrollAnimation>
+            <ScrollAnimation direction="up" delay={300}>
+              <Card className="bg-[#1a1612] border-amber-900/30">
+                <CardHeader className="text-center">
+                  <div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
+                    <Compass className="h-8 w-8 text-amber-400" />
+                  </div>
+                  <CardTitle className="text-xl font-semibold text-white">Direction spirituelle</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-white/70 text-center">
+                    Aligner vos objectifs avec votre mission spirituelle profonde.
+                  </p>
+                </CardContent>
+              </Card>
+            </ScrollAnimation>
           </div>
         </div>
       </section>
 
       {/* Ce que vous allez découvrir */}
       <section className="container py-24">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-12 sm:mb-16 px-4">
-          Ce que vous allez découvrir
-        </h2>
+        <ScrollAnimation direction="fade">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-12 sm:mb-16 px-4">
+            Ce que vous allez découvrir
+          </h2>
+        </ScrollAnimation>
         <div className="grid md:grid-cols-2 gap-8 sm:gap-12 max-w-5xl mx-auto px-4">
-          <div className="space-y-2">
-            <h3 className="text-2xl font-semibold text-amber-400 mb-3">Vision</h3>
-            <p className="text-lg text-white/80 leading-relaxed">
-              Comment développer une vision claire et inspirante qui guide chacune de vos décisions et transforme votre rapport au temps et aux priorités.
-            </p>
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-2xl font-semibold text-amber-400 mb-3">Maîtrise intérieure</h3>
-            <p className="text-lg text-white/80 leading-relaxed">
-              Les techniques pour développer une discipline personnelle inébranlable et transformer vos habitudes en forces de réussite.
-            </p>
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-2xl font-semibold text-amber-400 mb-3">Pensée gouvernante</h3>
-            <p className="text-lg text-white/80 leading-relaxed">
-              Les principes mentaux qui séparent les leaders des suiveurs, et comment cultiver une pensée stratégique au quotidien.
-            </p>
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-2xl font-semibold text-amber-400 mb-3">Alignement avec Dieu</h3>
-            <p className="text-lg text-white/80 leading-relaxed">
-              Comment harmoniser vos ambitions personnelles avec votre mission spirituelle pour une vie d'impact et de sens profond.
-            </p>
-          </div>
+          <ScrollAnimation direction="left" delay={0}>
+            <div className="space-y-2">
+              <h3 className="text-2xl font-semibold text-amber-400 mb-3">Vision</h3>
+              <p className="text-lg text-white/80 leading-relaxed">
+                Comment développer une vision claire et inspirante qui guide chacune de vos décisions et transforme votre rapport au temps et aux priorités.
+              </p>
+            </div>
+          </ScrollAnimation>
+          <ScrollAnimation direction="right" delay={100}>
+            <div className="space-y-2">
+              <h3 className="text-2xl font-semibold text-amber-400 mb-3">Maîtrise intérieure</h3>
+              <p className="text-lg text-white/80 leading-relaxed">
+                Les techniques pour développer une discipline personnelle inébranlable et transformer vos habitudes en forces de réussite.
+              </p>
+            </div>
+          </ScrollAnimation>
+          <ScrollAnimation direction="left" delay={200}>
+            <div className="space-y-2">
+              <h3 className="text-2xl font-semibold text-amber-400 mb-3">Pensée gouvernante</h3>
+              <p className="text-lg text-white/80 leading-relaxed">
+                Les principes mentaux qui séparent les leaders des suiveurs, et comment cultiver une pensée stratégique au quotidien.
+              </p>
+            </div>
+          </ScrollAnimation>
+          <ScrollAnimation direction="right" delay={300}>
+            <div className="space-y-2">
+              <h3 className="text-2xl font-semibold text-amber-400 mb-3">Alignement avec Dieu</h3>
+              <p className="text-lg text-white/80 leading-relaxed">
+                Comment harmoniser vos ambitions personnelles avec votre mission spirituelle pour une vie d'impact et de sens profond.
+              </p>
+            </div>
+          </ScrollAnimation>
         </div>
       </section>
 
       {/* Aperçu du livre */}
       <section className="bg-black/30 py-24">
         <div className="container">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <ScrollAnimation direction="up">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Left side - Book 3D image */}
             <div className="relative flex justify-center items-center">
               <div 
@@ -245,19 +269,23 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+          </ScrollAnimation>
         </div>
       </section>
 
       {/* Offres */}
       <section id="offres" className="container py-24">
-          <h2 className="text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4">
-            Offres
-          </h2>
-        <p className="text-xl text-center text-white/70 mb-16">
-          Choisissez votre parcours vers la maîtrise
-        </p>
+          <ScrollAnimation direction="fade">
+            <h2 className="text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4">
+              Offres
+            </h2>
+            <p className="text-xl text-center text-white/70 mb-16">
+              Choisissez votre parcours vers la maîtrise
+            </p>
+          </ScrollAnimation>
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          <Card className="bg-[#1a1612] border-amber-900/30">
+          <ScrollAnimation direction="left" delay={0}>
+            <Card className="bg-[#1a1612] border-amber-900/30">
             <CardHeader>
               <CardTitle className="text-2xl font-semibold text-white">Ebook seul</CardTitle>
             </CardHeader>
@@ -288,7 +316,9 @@ export default function HomePage() {
               </Button>
             </CardContent>
           </Card>
-          <Card className="bg-[#1a1612] border-2 border-amber-400/50 relative">
+          </ScrollAnimation>
+          <ScrollAnimation direction="right" delay={100}>
+            <Card className="bg-[#1a1612] border-2 border-amber-400/50 relative">
             <div className="absolute -top-3 right-6">
               <Badge className="bg-amber-500 text-black font-semibold px-3 py-1">
                 Recommandé
@@ -324,19 +354,23 @@ export default function HomePage() {
               </Button>
             </CardContent>
           </Card>
+          </ScrollAnimation>
         </div>
       </section>
 
       {/* Impact & Fondation */}
       <section className="bg-black/30 py-24">
         <div className="container max-w-4xl">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4 px-4">
-            Impact & Fondation
-          </h2>
-          <p className="text-lg sm:text-xl text-center text-white/70 mb-12 px-4">
-            Votre achat soutient la Fondation Philippe Mukoma et ses actions pour l'éducation et le leadership en Afrique
-          </p>
-          <Card className="bg-[#1a1612] border-amber-900/30">
+          <ScrollAnimation direction="fade">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4 px-4">
+              Impact & Fondation
+            </h2>
+            <p className="text-lg sm:text-xl text-center text-white/70 mb-12 px-4">
+              Votre achat soutient la Fondation Philippe Mukoma et ses actions pour l'éducation et le leadership en Afrique
+            </p>
+          </ScrollAnimation>
+          <ScrollAnimation direction="up" delay={200}>
+            <Card className="bg-[#1a1612] border-amber-900/30">
             <CardContent className="pt-6">
               <div className="flex flex-col md:flex-row gap-8 items-center">
                 <div className="relative w-32 h-32 shrink-0">
@@ -364,16 +398,20 @@ export default function HomePage() {
               </div>
             </CardContent>
           </Card>
+          </ScrollAnimation>
         </div>
       </section>
 
       {/* FAQ */}
       <section id="faq" className="container py-16 sm:py-24">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-12 sm:mb-16">
-            Questions fréquentes
-          </h2>
-          <Accordion type="single" collapsible className="w-full space-y-4">
+          <ScrollAnimation direction="fade">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-12 sm:mb-16">
+              Questions fréquentes
+            </h2>
+          </ScrollAnimation>
+          <ScrollAnimation direction="up" delay={200}>
+            <Accordion type="single" collapsible className="w-full space-y-4">
             <AccordionItem value="item-1" className="border-amber-900/30 bg-[#1a1612] rounded-lg px-6">
               <AccordionTrigger className="text-white hover:text-amber-400">
                 Comment accéder à l'ebook après achat ?
@@ -399,20 +437,24 @@ export default function HomePage() {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+          </ScrollAnimation>
         </div>
       </section>
 
       {/* CTA Final */}
       <section id="acheter" className="bg-black/30 py-24">
         <div className="container max-w-3xl mx-auto text-center space-y-8">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[var(--font-serif)] font-bold leading-tight px-4">
-            L'année ne décide rien.{" "}
-            <span className="text-amber-400">Le maître, c'est toi.</span>
-          </h2>
-          <p className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto px-4">
-            Ne laissez pas une année de plus passer sans prendre le contrôle de votre destinée. Le moment d'agir, c'est maintenant.
-          </p>
-          <Button 
+          <ScrollAnimation direction="fade" delay={0}>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[var(--font-serif)] font-bold leading-tight px-4">
+              L'année ne décide rien.{" "}
+              <span className="text-amber-400">Le maître, c'est toi.</span>
+            </h2>
+            <p className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto px-4">
+              Ne laissez pas une année de plus passer sans prendre le contrôle de votre destinée. Le moment d'agir, c'est maintenant.
+            </p>
+          </ScrollAnimation>
+          <ScrollAnimation direction="up" delay={300}>
+            <Button 
             onClick={() => {
               setSelectedProductId("ebook-standard")
               setIsEmailModalOpen(true)
@@ -422,6 +464,7 @@ export default function HomePage() {
           >
             Acheter maintenant
           </Button>
+          </ScrollAnimation>
         </div>
       </section>
     </div>
