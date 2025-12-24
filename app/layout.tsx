@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" className="dark">
+    <html lang="fr" className="dark" suppressHydrationWarning>
       <body className={`${inter.variable} ${playfair.variable} ${inter.className} bg-[#1a1612] text-white`}>
         <Header />
         <main className="min-h-screen">{children}</main>
