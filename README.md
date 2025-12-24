@@ -1,6 +1,6 @@
-# Mukoma - Site de vente d'ebook avec Stripe et Supabase
+# Mukoma - Site de vente d'ebook avec Stripe
 
-Projet Next.js 15 avec TypeScript, Tailwind CSS, shadcn/ui, Supabase et Stripe Checkout.
+Projet Next.js 15 avec TypeScript, Tailwind CSS, shadcn/ui et Stripe Checkout.
 
 ## 🚀 Installation
 
@@ -10,22 +10,7 @@ Projet Next.js 15 avec TypeScript, Tailwind CSS, shadcn/ui, Supabase et Stripe C
 npm install
 ```
 
-### 2. Configuration Supabase
-
-1. Créez un projet sur [Supabase](https://supabase.com)
-2. Allez dans **SQL Editor** et exécutez le contenu de `supabase/schema.sql`
-3. Créez un bucket de stockage nommé `ebooks` :
-   - Allez dans **Storage** > **Buckets**
-   - Créez un nouveau bucket `ebooks`
-   - Marquez-le comme **Private**
-   - Uploadez votre fichier PDF (`mukoma.pdf`)
-
-4. Récupérez vos clés Supabase :
-   - **Settings** > **API**
-   - Copiez `Project URL` et `anon public key`
-   - Copiez `service_role key` (gardez-la secrète !)
-
-### 3. Configuration Stripe
+### 2. Configuration Stripe
 
 1. Créez un compte sur [Stripe](https://stripe.com)
 2. Récupérez vos clés API :
@@ -36,7 +21,6 @@ npm install
    ```bash
    # Installer Stripe CLI
    # macOS: brew install stripe/stripe-cli/stripe
-   # Linux/Windows: https://stripe.com/docs/stripe-cli
    
    # Se connecter
    stripe login
@@ -47,6 +31,12 @@ npm install
    
    La commande affichera un `webhook signing secret` (commence par `whsec_`). Copiez-le.
 
+### 3. Configuration Email (Resend)
+
+1. Créez un compte sur [Resend](https://resend.com) (gratuit jusqu'à 3000 emails/mois)
+2. Créez une API Key dans **API Keys**
+3. Configurez un domaine d'envoi (ou utilisez le domaine de test pour le développement)
+
 ### 4. Configuration de l'environnement
 
 1. Copiez `.env.example` vers `.env.local` :
@@ -56,24 +46,20 @@ npm install
 
 2. Remplissez les variables dans `.env.local` :
    ```env
-   NEXT_PUBLIC_SUPABASE_URL=https://votre-projet.supabase.co
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=votre_anon_key
-   SUPABASE_SERVICE_ROLE_KEY=votre_service_role_key
-   
    STRIPE_SECRET_KEY=sk_test_...
    STRIPE_WEBHOOK_SECRET=whsec_...
    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
    
+   RESEND_API_KEY=re_...
+   EMAIL_FROM=noreply@yourdomain.com
+   
    NEXT_PUBLIC_SITE_URL=http://localhost:3000
+   EBOOK_PDF_URL=/ebook/COVER L'ART DE DIRIGER.pdf
    ```
 
-### 5. Initialiser shadcn/ui (déjà fait, mais pour référence)
+### 5. Ajouter votre PDF
 
-Les composants shadcn/ui sont déjà configurés. Si vous voulez en ajouter d'autres :
-
-```bash
-npx shadcn@latest add [component-name]
-```
+Placez votre fichier PDF dans `public/ebook/COVER L'ART DE DIRIGER.pdf` ou configurez `EBOOK_PDF_URL` avec une URL externe (CDN, S3, etc.)
 
 ### 6. Lancer le projet
 
@@ -87,78 +73,72 @@ Ouvrez [http://localhost:3000](http://localhost:3000)
 
 ```
 mukoma/
-├── public/
-│   ├── images/              # Images statiques du site
-│   │   ├── hero/           # Images pour la section hero
-│   │   ├── book/           # Images du livre/ebook
-│   │   ├── foundation/     # Images pour la page fondation
-│   │   ├── icons/          # Icônes
-│   │   └── logo/           # Logo du site
-│   └── favicon.ico         # Favicon du site
 ├── app/
 │   ├── api/
 │   │   ├── stripe/
 │   │   │   ├── create-checkout/route.ts    # Création session Stripe
-│   │   │   └── webhook/route.ts            # Webhook Stripe
-│   │   └── download/route.ts                # Génération lien téléchargement
-│   ├── fondation/
-│   │   └── page.tsx                         # Page Fondation
+│   │   │   └── webhook/route.ts            # Webhook Stripe + envoi email
+│   │   └── download/route.ts               # Téléchargement avec token
 │   ├── success/
-│   │   └── page.tsx                         # Page succès paiement
+│   │   └── page.tsx                         # Page succès (redirige vers accueil)
 │   ├── cancel/
 │   │   └── page.tsx                         # Page annulation
 │   ├── telechargement/
-│   │   └── page.tsx                         # Page téléchargement ebook
-│   ├── layout.tsx                           # Layout principal
-│   ├── page.tsx                             # Landing page
-│   └── globals.css                          # Styles globaux
-├── components/
-│   ├── ui/                                  # Composants shadcn/ui
-│   ├── Header.tsx                           # Header avec navigation
-│   └── Footer.tsx                           # Footer
+│   │   └── page.tsx                         # Page téléchargement avec token
+│   └── ...
 ├── lib/
-│   ├── supabase/
-│   │   ├── client.ts                        # Client Supabase (browser)
-│   │   └── server.ts                        # Client Supabase (server)
-│   └── utils.ts                             # Utilitaires (cn)
-├── supabase/
-│   └── schema.sql                           # Schéma SQL Supabase
-└── package.json
+│   ├── email.ts                             # Service d'envoi d'email (Resend)
+│   └── tokens.ts                            # Gestion des tokens de téléchargement
+└── public/
+    └── ebook/
+        └── COVER L'ART DE DIRIGER.pdf       # Votre fichier PDF
 ```
+
+## 🔄 Flux de paiement
+
+1. **Client clique sur "Acheter"** → Redirection vers Stripe Checkout
+2. **Paiement réussi** → Redirection vers `/success`
+3. **Webhook Stripe** → Génère un token et envoie un email avec le lien
+4. **Client reçoit l'email** → Clique sur le lien avec token
+5. **Page téléchargement** → Valide le token et télécharge le PDF
 
 ## 🔐 Sécurité
 
-- **RLS activé** : Les utilisateurs ne peuvent voir que leurs propres achats
-- **Signed URLs** : Les liens de téléchargement expirent après 5 minutes
-- **Limite de téléchargements** : Maximum 5 par jour par achat
-- **Service Role** : Utilisé uniquement côté serveur pour les webhooks
+- **Tokens sécurisés** : Générés avec crypto, valides 24h, max 5 téléchargements
+- **Validation** : Chaque token est vérifié avant téléchargement
+- **Expiration** : Tokens automatiquement expirés après 24h
+
+## 📧 Configuration Email
+
+Le système utilise **Resend** pour l'envoi d'emails :
+- Gratuit jusqu'à 3000 emails/mois
+- Facile à configurer
+- Templates HTML supportés
+
+Alternative : Vous pouvez modifier `lib/email.ts` pour utiliser un autre service (SendGrid, Nodemailer, etc.)
 
 ## 🧪 Test du flux complet
 
 1. **Achat** :
-   - Cliquez sur "Acheter l'ebook" sur la landing page
-   - Utilisez la carte de test Stripe : `4242 4242 4242 4242`
+   - Cliquez sur "Acheter l'ebook"
+   - Utilisez la carte de test : `4242 4242 4242 4242`
    - Date d'expiration : n'importe quelle date future
    - CVC : n'importe quel 3 chiffres
 
 2. **Webhook** :
    - Vérifiez que le webhook Stripe fonctionne (logs dans le terminal où `stripe listen` tourne)
-   - L'achat devrait être enregistré dans Supabase
+   - Un email devrait être envoyé automatiquement
 
 3. **Téléchargement** :
-   - Allez sur `/telechargement`
-   - Entrez l'email utilisé lors de l'achat
-   - Cliquez sur "Accéder à mon ebook"
-   - Le lien de téléchargement devrait apparaître
+   - Cliquez sur le lien dans l'email reçu
+   - Le PDF devrait se télécharger automatiquement
 
 ## 📝 Notes importantes
 
-- Le fichier PDF doit être nommé `mukoma.pdf` dans le bucket `ebooks`
+- Le fichier PDF doit être nommé `COVER L'ART DE DIRIGER.pdf` dans `public/ebook/` ou configuré via `EBOOK_PDF_URL`
 - Les webhooks Stripe doivent être configurés en production avec l'URL de votre site
 - En production, utilisez les clés Stripe en mode `live` (sans `_test`)
-- Les images statiques doivent être placées dans `public/images/`
-  - Utilisez le composant `<Image>` de Next.js pour l'optimisation automatique
-  - Exemple : `<Image src="/images/book/cover.jpg" alt="..." width={300} height={400} />`
+- Configurez votre domaine d'envoi dans Resend pour la production
 
 ## 🚀 Déploiement
 
@@ -171,12 +151,14 @@ mukoma/
 
 ### Variables d'environnement en production
 
-N'oubliez pas de mettre à jour `NEXT_PUBLIC_SITE_URL` avec votre URL de production.
+N'oubliez pas de mettre à jour :
+- `NEXT_PUBLIC_SITE_URL` avec votre URL de production
+- `EMAIL_FROM` avec votre domaine vérifié dans Resend
+- Les clés Stripe en mode `live`
 
 ## 📚 Ressources
 
 - [Next.js Documentation](https://nextjs.org/docs)
-- [Supabase Documentation](https://supabase.com/docs)
 - [Stripe Documentation](https://stripe.com/docs)
+- [Resend Documentation](https://resend.com/docs)
 - [shadcn/ui Documentation](https://ui.shadcn.com)
-

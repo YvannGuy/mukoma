@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import Stripe from "stripe"
-import { createServiceRoleClient } from "@/lib/supabase/server"
+import { generateDownloadToken } from "@/lib/tokens"
+import { sendDownloadEmail } from "@/lib/email"
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2023-10-16",
@@ -36,27 +37,31 @@ export async function POST(request: NextRequest) {
     const session = event.data.object as Stripe.Checkout.Session
 
     try {
-      const supabase = await createServiceRoleClient()
+      const email = session.customer_email || session.customer_details?.email
 
-      // Insérer l'achat dans la table purchases
-      const { error: insertError } = await supabase
-        .from("purchases")
-        .insert({
-          stripe_session_id: session.id,
-          buyer_email: session.customer_email || session.customer_details?.email || null,
-          product_id: session.metadata?.product_id || "ebook-standard",
-        })
-
-      if (insertError) {
-        console.error("Erreur insertion purchase:", insertError)
-        // Ne pas échouer le webhook si c'est un doublon (session déjà traitée)
-        if (!insertError.message.includes("duplicate") && !insertError.message.includes("unique")) {
-          return NextResponse.json(
-            { error: "Failed to record purchase" },
-            { status: 500 }
-          )
-        }
+      if (!email) {
+        console.error("Aucun email trouvé dans la session Stripe")
+        return NextResponse.json(
+          { error: "No email found in session" },
+          { status: 400 }
+        )
       }
+
+      // Générer un token de téléchargement
+      const token = generateDownloadToken(email, session.id)
+
+      // Créer l'URL de téléchargement
+      const downloadUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/telechargement?token=${token}`
+
+      // Envoyer l'email avec le lien de téléchargement
+      const emailResult = await sendDownloadEmail(email, downloadUrl)
+
+      if (!emailResult.success) {
+        console.error("Erreur envoi email:", emailResult.error)
+        // On continue quand même, le token est valide
+      }
+
+      console.log(`Email envoyé à ${email} pour la session ${session.id}`)
     } catch (error: any) {
       console.error("Erreur traitement webhook:", error)
       return NextResponse.json(
@@ -68,4 +73,3 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({ received: true })
 }
-

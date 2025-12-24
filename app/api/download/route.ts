@@ -1,85 +1,41 @@
 import { NextRequest, NextResponse } from "next/server"
-import { createServiceRoleClient } from "@/lib/supabase/server"
+import { validateDownloadToken } from "@/lib/tokens"
 
-const MAX_DOWNLOADS_PER_DAY = 5
-
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
-    const { email } = await request.json()
+    const searchParams = request.nextUrl.searchParams
+    const token = searchParams.get("token")
 
-    if (!email) {
+    if (!token) {
       return NextResponse.json(
-        { error: "Email requis" },
+        { error: "Token requis" },
         { status: 400 }
       )
     }
 
-    const supabase = await createServiceRoleClient()
+    // Valider le token
+    const validation = validateDownloadToken(token)
 
-    // Vérifier si l'utilisateur a un achat valide
-    const { data: purchase, error: purchaseError } = await supabase
-      .from("purchases")
-      .select("*")
-      .eq("buyer_email", email.toLowerCase())
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .single()
-
-    if (purchaseError || !purchase) {
+    if (!validation.valid) {
       return NextResponse.json(
-        { error: "Aucun achat trouvé pour cet email" },
-        { status: 404 }
+        { error: validation.error || "Token invalide" },
+        { status: 400 }
       )
     }
 
-    // Vérifier le nombre de téléchargements aujourd'hui
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
+    // URL du PDF (peut être stocké sur un CDN, S3, ou dans public/)
+    const pdfPath = process.env.EBOOK_PDF_URL || "/ebook/COVER L'ART DE DIRIGER.pdf"
 
-    const { data: downloads, error: downloadLogError } = await supabase
-      .from("download_logs")
-      .select("*")
-      .eq("purchase_id", purchase.id)
-      .gte("created_at", today.toISOString())
-
-    if (downloadLogError) {
-      console.error("Erreur vérification logs:", downloadLogError)
+    // Si c'est une URL externe (http/https), rediriger
+    if (pdfPath.startsWith("http")) {
+      return NextResponse.redirect(pdfPath)
+    } else {
+      // Si c'est un chemin local, construire l'URL correctement
+      const baseUrl = new URL(request.url).origin
+      // Construire l'URL avec le chemin (Next.js gère l'encodage automatiquement)
+      const downloadUrl = new URL(pdfPath, baseUrl)
+      return NextResponse.redirect(downloadUrl.toString())
     }
-
-    const downloadCount = downloads?.length || 0
-
-    if (downloadCount >= MAX_DOWNLOADS_PER_DAY) {
-      return NextResponse.json(
-        { error: `Limite de ${MAX_DOWNLOADS_PER_DAY} téléchargements par jour atteinte. Réessayez demain.` },
-        { status: 429 }
-      )
-    }
-
-    // Générer un signed URL valide 5 minutes
-    const { data: signedUrlData, error: urlError } = await supabase.storage
-      .from("ebooks")
-      .createSignedUrl("mukoma.pdf", 300) // 5 minutes = 300 secondes
-
-    if (urlError || !signedUrlData) {
-      console.error("Erreur génération URL:", urlError)
-      return NextResponse.json(
-        { error: "Erreur lors de la génération du lien de téléchargement" },
-        { status: 500 }
-      )
-    }
-
-    // Enregistrer le téléchargement
-    await supabase
-      .from("download_logs")
-      .insert({
-        purchase_id: purchase.id,
-        buyer_email: email.toLowerCase(),
-      })
-
-    return NextResponse.json({
-      url: signedUrlData.signedUrl,
-      expiresIn: 300,
-    })
   } catch (error: any) {
     console.error("Erreur API download:", error)
     return NextResponse.json(
@@ -88,4 +44,3 @@ export async function POST(request: NextRequest) {
     )
   }
 }
-
