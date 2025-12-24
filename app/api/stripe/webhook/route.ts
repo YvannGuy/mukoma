@@ -54,11 +54,17 @@ export async function POST(request: NextRequest) {
       const downloadUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/telechargement?token=${token}`
 
       // Envoyer l'email avec le lien de téléchargement
-      const emailResult = await sendDownloadEmail(email, downloadUrl)
-
-      if (!emailResult.success) {
-        console.error("Erreur envoi email:", emailResult.error)
-        // On continue quand même, le token est valide
+      try {
+        const emailResult = await sendDownloadEmail(email, downloadUrl)
+        if (!emailResult.success) {
+          console.error("Erreur envoi email:", emailResult.error)
+          // On continue quand même, le token est valide
+        } else {
+          console.log(`Email envoyé avec succès à ${email}`)
+        }
+      } catch (emailError: any) {
+        console.error("Erreur configuration email:", emailError.message)
+        // On continue quand même, le token est valide - l'utilisateur peut utiliser le lien directement
       }
 
       console.log(`Email envoyé à ${email} pour la session ${session.id}`)
