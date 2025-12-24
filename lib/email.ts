@@ -17,14 +17,14 @@ function getResendClient() {
  * Gère automatiquement les domaines publics non vérifiés
  */
 function getEmailFrom(): string {
-  let emailFrom = process.env.EMAIL_FROM || 'onboarding@resend.dev'
+  let emailFrom = process.env.EMAIL_FROM || 'workgraphicde@gmail.com'
   
   // Si l'utilisateur a configuré un email avec un domaine public, utiliser le domaine de test
   if (emailFrom.includes('@gmail.com') || 
       emailFrom.includes('@yahoo.com') || 
       emailFrom.includes('@hotmail.com')) {
     console.log(`[EMAIL] ⚠️ Domaine public détecté, utilisation de onboarding@resend.dev`)
-    return 'onboarding@resend.dev'
+    return 'workgraphicde@gmail.com'
   }
   
   return emailFrom
