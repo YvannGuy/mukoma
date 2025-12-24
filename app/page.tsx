@@ -16,12 +16,14 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col bg-[#1a1612] text-white min-h-screen">
-      <ImageModal
-        src="/images/book/SIMULATION.jpg"
-        alt="Aperçu du livre en 3D"
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+      {isModalOpen && (
+        <ImageModal
+          src="/images/book/SIMULATION.jpg"
+          alt="Aperçu du livre en 3D"
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
       {/* Hero Section */}
       <section className="container py-24 md:py-32">
         <div className="grid md:grid-cols-2 gap-12 items-center">

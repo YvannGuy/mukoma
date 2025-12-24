@@ -42,7 +42,7 @@ export function ImageModal({ src, alt, isOpen, onClose }: ImageModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
       onClick={onClose}
     >
       <div
@@ -53,7 +53,7 @@ export function ImageModal({ src, alt, isOpen, onClose }: ImageModalProps) {
           variant="ghost"
           size="icon"
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full"
+          className="absolute top-4 right-4 z-[10000] bg-black/50 hover:bg-black/70 text-white rounded-full"
           aria-label="Fermer"
         >
           <X className="h-6 w-6" />
