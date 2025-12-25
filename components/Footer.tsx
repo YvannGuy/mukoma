@@ -15,12 +15,6 @@ export function Footer() {
             <a href="mailto:contact@mukoma.com" className="text-sm text-white/70 hover:text-amber-400 transition-colors">
               Contact
             </a>
-            <Link href="/mentions-legales" className="text-sm text-white/70 hover:text-amber-400 transition-colors">
-              Mentions légales
-            </Link>
-            <Link href="/confidentialite" className="text-sm text-white/70 hover:text-amber-400 transition-colors">
-              Confidentialité
-            </Link>
           </nav>
         </div>
         <div className="mt-8 pt-8 border-t border-amber-900/20 text-center text-sm text-white/60">

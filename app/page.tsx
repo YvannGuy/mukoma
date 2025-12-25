@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import Link from "next/link"
 import Image from "next/image"
-import { Check, Eye, Crown, Shield, Compass, Book, Lock, Zap } from "lucide-react"
+import { Check, Eye, Crown, Shield, Compass, Book, Lock, Zap, ChevronDown } from "lucide-react"
 import { ImageSlider } from "@/components/ImageSlider"
 import { ImageModal } from "@/components/ImageModal"
 import { EmailModal } from "@/components/EmailModal"
@@ -39,7 +39,7 @@ export default function HomePage() {
           <div className="relative grid md:grid-cols-2 gap-12 items-start md:items-end">
             {/* Left side - Text content */}
             <div className="space-y-6 pb-24 md:pb-32 pt-8 md:pt-24 relative z-20">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-[var(--font-serif)] leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-[var(--font-serif)] font-bold leading-tight">
                 L'Art de Diriger sa{" "}
                 <span className="text-amber-400">Nouvelle Année</span>
               </h1>
@@ -105,13 +105,29 @@ export default function HomePage() {
             />
           </div>
         </div>
+        {/* Chevrons animés pour scroll automatique */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30">
+          <button
+            onClick={() => {
+              const nextSection = document.querySelector('#qui-sadresse')
+              if (nextSection) {
+                nextSection.scrollIntoView({ behavior: 'smooth' })
+              }
+            }}
+            className="flex flex-col items-center text-amber-400/80 hover:text-amber-400 transition-colors cursor-pointer group"
+            aria-label="Défiler vers le bas"
+          >
+            <ChevronDown className="h-8 w-8 animate-bounce" style={{ animationDuration: '2s' }} />
+            <ChevronDown className="h-6 w-6 animate-bounce" style={{ marginTop: '-12px', animationDuration: '2s', animationDelay: '0.2s' }} />
+          </button>
+        </div>
       </section>
 
       {/* À qui s'adresse ce livre */}
-      <section className="bg-black/30 py-24">
+      <section id="qui-sadresse" className="bg-black/30 py-24">
         <div className="container">
           <ScrollAnimation direction="fade">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] text-center mb-4 px-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4 px-4">
               À qui s'adresse ce livre
             </h2>
             <p className="text-lg sm:text-xl text-center text-white/70 mb-12 sm:mb-16 max-w-3xl mx-auto px-4">
@@ -186,7 +202,7 @@ export default function HomePage() {
       {/* Ce que vous allez découvrir */}
       <section className="container py-24">
         <ScrollAnimation direction="fade">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] text-center mb-12 sm:mb-16 px-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-12 sm:mb-16 px-4">
             Ce que vous allez découvrir
           </h2>
         </ScrollAnimation>
@@ -255,7 +271,7 @@ export default function HomePage() {
             </div>
             {/* Right side - Features */}
             <div className="space-y-8">
-              <h2 className="text-4xl md:text-5xl font-[var(--font-serif)]">
+              <h2 className="text-4xl md:text-5xl font-[var(--font-serif)] font-bold">
                 Aperçu du livre
               </h2>
               <div className="space-y-6">
@@ -296,7 +312,7 @@ export default function HomePage() {
       {/* Offres */}
       <section id="acheter-ebook" className="container py-24">
         <ScrollAnimation direction="fade">
-          <h2 className="text-4xl md:text-5xl font-[var(--font-serif)] text-center mb-4">
+          <h2 className="text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4">
             Offre
           </h2>
           <p className="text-xl text-center text-white/70 mb-12">
@@ -358,7 +374,7 @@ export default function HomePage() {
       <section className="bg-black/30 py-24">
         <div className="container max-w-4xl">
           <ScrollAnimation direction="fade">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] text-center mb-4 px-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4 px-4">
               Impact & Fondation
             </h2>
             <p className="text-lg sm:text-xl text-center text-white/70 mb-12 px-4">
@@ -402,7 +418,7 @@ export default function HomePage() {
       <section id="faq" className="container py-16 sm:py-24">
         <div className="max-w-3xl mx-auto px-4">
           <ScrollAnimation direction="fade">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-12 sm:mb-16">
               Questions fréquentes
             </h2>
           </ScrollAnimation>
@@ -441,7 +457,7 @@ export default function HomePage() {
       <section id="acheter" className="bg-black/30 py-24">
         <div className="container max-w-3xl mx-auto text-center space-y-8">
           <ScrollAnimation direction="fade" delay={0}>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[var(--font-serif)] leading-tight px-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[var(--font-serif)] font-bold leading-tight px-4">
               L'année ne décide rien.{" "}
               <span className="text-amber-400">Le maître, c'est toi.</span>
             </h2>
