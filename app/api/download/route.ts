@@ -32,10 +32,10 @@ export async function GET(request: NextRequest) {
     }
 
     // Nom du fichier PDF dans public/ebook/
-    // Par défaut: COVER.pdf, peut être surchargé via EBOOK_PDF_URL
+    // Par défaut: Lart.pdf, peut être surchargé via EBOOK_PDF_URL
     const pdfFileName = process.env.EBOOK_PDF_URL 
-      ? (process.env.EBOOK_PDF_URL.split("/").pop() || "COVER.pdf")
-      : "COVER.pdf"
+      ? (process.env.EBOOK_PDF_URL.split("/").pop() || "Lart.pdf")
+      : "Lart.pdf"
 
     // Si c'est un chemin local, lire le fichier depuis public/ebook/
     try {
