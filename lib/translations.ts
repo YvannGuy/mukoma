@@ -12,7 +12,7 @@ export const translations = {
     hero: {
       title: "L'Art de Diriger sa",
       titleHighlight: "Nouvelle Année",
-      subtitle: "Reprendre le contrôle de sa vie, de ses décisions et de sa destinée",
+      subtitle: "Il existe un mensonge que des millions de personnes croient chaque année : que le simple passage d'une date peut changer leur vie.\n\nMinuit sonne, les feux d'artifice illuminent le ciel, les promesses se chantent à voix basse… et pourtant, le lendemain, tout reste étrangement pareil.",
       author: "Par Philippe Mukoma Weto",
       buyEbook: "Acheter l'ebook",
       discoverFoundation: "Découvrir la Fondation"
@@ -32,7 +32,7 @@ export const translations = {
         title: "Votre ebook",
         subtitle: "Commandez votre ebook et recevez-le instantanément",
         cardTitle: "Ebook complet",
-        price: "27",
+        price: "70",
         features: {
           format: "Ebook complet PDF + EPUB",
           lifetime: "Accès à vie",
@@ -137,7 +137,7 @@ export const translations = {
     hero: {
       title: "The Art of Directing Your",
       titleHighlight: "New Year",
-      subtitle: "Take back control of your life, your decisions, and your destiny",
+      subtitle: "There is a lie that millions of people believe every year: that the simple passage of a date can change their lives.\n\nMidnight strikes, fireworks light up the sky, promises are whispered… yet the next day, everything remains strangely the same.",
       author: "By Philippe Mukoma Weto",
       buyEbook: "Buy the ebook",
       discoverFoundation: "Discover the Foundation"
@@ -157,7 +157,7 @@ export const translations = {
         title: "Your ebook",
         subtitle: "Order your ebook and receive it instantly",
         cardTitle: "Complete ebook",
-        price: "27",
+        price: "70",
         features: {
           format: "Complete ebook PDF + EPUB",
           lifetime: "Lifetime access",

@@ -17,9 +17,6 @@ export function Header() {
           Philippe Mukoma Weto
         </Link>
         <nav className="hidden md:flex items-center gap-4 lg:gap-6">
-          <Link href="/" className="text-sm font-medium text-white/80 hover:text-amber-400 transition-colors">
-            {t('nav.book')}
-          </Link>
           <Link href="/#acheter-ebook" className="text-sm font-medium text-white/80 hover:text-amber-400 transition-colors">
             {t('nav.ebook')}
           </Link>
@@ -71,13 +68,6 @@ export function Header() {
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-amber-900/20 bg-black/95 backdrop-blur-sm">
           <nav className="container py-4 space-y-2">
-            <Link
-              href="/"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="block px-4 py-2 text-sm font-medium text-white/80 hover:text-amber-400 hover:bg-amber-400/10 rounded-md transition-colors"
-            >
-              {t('nav.book')}
-            </Link>
             <Link
               href="/#acheter-ebook"
               onClick={() => setIsMobileMenuOpen(false)}

@@ -82,7 +82,7 @@ export default function HomePage() {
                 {t('hero.title')}{" "}
                 <span className="text-amber-400">{t('hero.titleHighlight')}</span>
               </h1>
-              <p className="text-lg sm:text-xl md:text-2xl text-white/80 leading-relaxed">
+              <p className="text-lg sm:text-xl md:text-2xl text-white/80 leading-relaxed whitespace-pre-line">
                 {t('hero.subtitle')}
               </p>
               <p className="text-base sm:text-lg text-white/60">
@@ -362,42 +362,67 @@ export default function HomePage() {
           </ScrollAnimation>
           {/* Right side - Pricing card */}
           <ScrollAnimation direction="right" delay={100}>
-            <Card className="bg-[#1a1612] border-2 border-amber-400/50 w-full h-full flex flex-col max-w-md mx-auto md:mx-0">
-              <CardHeader className="flex-shrink-0">
-                <CardTitle className="text-2xl font-semibold text-white text-center">{t('sections.ebook.cardTitle')}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6 flex-1 flex flex-col justify-center pt-4">
-                <div className="text-center">
-                  <span className="text-7xl font-bold text-amber-500">{t('sections.ebook.price')}</span>
-                  <span className="text-5xl font-bold text-amber-500 ml-1">€</span>
-                </div>
-                <ul className="space-y-3 mt-12">
-                  <li className="flex items-start gap-3">
-                    <Check className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-                    <span className="text-white/80">{t('sections.ebook.features.format')}</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <Check className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-                    <span className="text-white/80">{t('sections.ebook.features.lifetime')}</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <Check className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-                    <span className="text-white/80">{t('sections.ebook.features.instant')}</span>
-                  </li>
-                </ul>
-                <Button 
-                  onClick={() => {
-                    const ebookSection = document.querySelector('#acheter-ebook')
-                    if (ebookSection) {
-                      ebookSection.scrollIntoView({ behavior: 'smooth' })
-                    }
-                  }}
-                  className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold py-6"
-                >
-                  {t('sections.ebook.buyNow')}
-                </Button>
-              </CardContent>
-            </Card>
+            <div className="relative w-full h-full flex flex-col max-w-md mx-auto md:mx-0">
+              {/* Glow effect */}
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 rounded-lg opacity-20 blur-sm"></div>
+              
+              <Card className="relative bg-gradient-to-br from-[#1a1612] via-[#2d2823] to-[#1a1612] border-2 border-amber-400/60 w-full h-full flex flex-col shadow-2xl hover:shadow-amber-500/20 transition-all duration-300 hover:border-amber-400/80">
+                <CardHeader className="flex-shrink-0 pb-4">
+                  <div className="flex items-center justify-center mb-2">
+                    <Badge className="bg-amber-500/20 text-amber-400 border-amber-400/30 px-4 py-1 text-sm font-semibold">
+                      ⭐ Offre complète
+                    </Badge>
+                  </div>
+                  <CardTitle className="text-2xl font-semibold text-white text-center">{t('sections.ebook.cardTitle')}</CardTitle>
+                </CardHeader>
+                
+                <CardContent className="space-y-8 flex-1 flex flex-col justify-between pt-6 pb-8">
+                  {/* Price section */}
+                  <div className="text-center space-y-2">
+                    <div className="flex items-baseline justify-center gap-1">
+                      <span className="text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-500 to-amber-400 leading-none">{t('sections.ebook.price')}</span>
+                      <span className="text-4xl font-bold text-amber-500 ml-1">€</span>
+                    </div>
+                    <p className="text-sm text-white/50">TTC</p>
+                  </div>
+                  
+                  {/* Features list */}
+                  <div className="space-y-4 py-6 border-y border-amber-900/30">
+                    <ul className="space-y-4">
+                      <li className="flex items-start gap-4 group">
+                        <div className="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-amber-500/30 transition-colors">
+                          <Check className="h-4 w-4 text-amber-400" />
+                        </div>
+                        <span className="text-white/90 text-base leading-relaxed">{t('sections.ebook.features.format')}</span>
+                      </li>
+                      <li className="flex items-start gap-4 group">
+                        <div className="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-amber-500/30 transition-colors">
+                          <Check className="h-4 w-4 text-amber-400" />
+                        </div>
+                        <span className="text-white/90 text-base leading-relaxed">{t('sections.ebook.features.lifetime')}</span>
+                      </li>
+                      <li className="flex items-start gap-4 group">
+                        <div className="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-amber-500/30 transition-colors">
+                          <Check className="h-4 w-4 text-amber-400" />
+                        </div>
+                        <span className="text-white/90 text-base leading-relaxed">{t('sections.ebook.features.instant')}</span>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  {/* CTA Button */}
+                  <Button 
+                    onClick={() => {
+                      setSelectedProductId("ebook-standard")
+                      setIsEmailModalOpen(true)
+                    }}
+                    className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-bold text-lg py-7 shadow-lg shadow-amber-500/30 hover:shadow-xl hover:shadow-amber-500/40 transition-all duration-300 transform hover:scale-[1.02]"
+                  >
+                    {t('sections.ebook.buyNow')}
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
           </ScrollAnimation>
         </div>
         <SectionChevron sectionId="acheter-ebook" />

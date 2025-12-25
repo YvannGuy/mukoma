@@ -19,9 +19,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Prix en centimes (27€ pour standard, 47€ pour bonus)
+    // Prix en centimes (70€ pour standard, 47€ pour bonus)
     const priceMap: Record<string, number> = {
-      "ebook-standard": 2700,
+      "ebook-standard": 7000,
       "ebook-bonus": 4700,
     }
     const amount = priceMap[productId] || 2900

@@ -114,7 +114,7 @@ export default function RootLayout({
     "inLanguage": "fr",
     "offers": {
       "@type": "Offer",
-      "price": "27",
+      "price": "70",
       "priceCurrency": "EUR",
       "availability": "https://schema.org/InStock",
       "url": `${siteUrl}/#acheter-ebook`
