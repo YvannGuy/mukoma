@@ -338,10 +338,10 @@ export default function HomePage() {
       <section id="acheter-ebook" className="relative container py-24">
         <ScrollAnimation direction="fade">
           <h2 className="text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4">
-            Offre
+            Votre ebook
           </h2>
           <p className="text-xl text-center text-white/70 mb-12">
-            Accédez à votre ebook dès maintenant
+            Commandez votre ebook et recevez-le instantanément
           </p>
         </ScrollAnimation>
         <div className="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto mb-12">
@@ -382,8 +382,10 @@ export default function HomePage() {
                 </ul>
                 <Button 
                   onClick={() => {
-                    setSelectedProductId("ebook-standard")
-                    setIsEmailModalOpen(true)
+                    const ebookSection = document.querySelector('#acheter-ebook')
+                    if (ebookSection) {
+                      ebookSection.scrollIntoView({ behavior: 'smooth' })
+                    }
                   }}
                   className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold py-6"
                 >
@@ -496,8 +498,10 @@ export default function HomePage() {
           <ScrollAnimation direction="up" delay={300}>
             <Button 
             onClick={() => {
-              setSelectedProductId("ebook-standard")
-              setIsEmailModalOpen(true)
+              const ebookSection = document.querySelector('#acheter-ebook')
+              if (ebookSection) {
+                ebookSection.scrollIntoView({ behavior: 'smooth' })
+              }
             }}
             size="lg" 
             className="bg-amber-500 hover:bg-amber-600 text-black font-semibold text-lg px-12 py-6"
