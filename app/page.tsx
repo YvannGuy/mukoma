@@ -428,6 +428,67 @@ export default function HomePage() {
         <SectionChevron sectionId="acheter-ebook" />
       </section>
 
+      {/* Moyens de paiement */}
+      <section className="relative bg-black/30 py-12">
+        <div className="container">
+          <ScrollAnimation direction="fade">
+            <h2 className="text-2xl md:text-3xl font-[var(--font-serif)] font-bold text-center mb-6">
+              Moyens de paiement
+            </h2>
+            
+            {/* Payment methods banner - Horizontal */}
+            <div className="max-w-6xl mx-auto">
+              <div className="bg-gradient-to-r from-[#1a1612] via-[#2d2823] to-[#1a1612] border-2 border-amber-400/30 rounded-lg p-4 md:p-6">
+                <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8">
+                  {/* PayPal Logo */}
+                  <div className="flex-shrink-0">
+                    <div className="bg-white rounded-lg px-5 py-2.5 flex items-center gap-1.5">
+                      <span className="text-xl md:text-2xl font-bold text-[#003087]">Pay</span>
+                      <span className="text-xl md:text-2xl font-bold text-[#009CDE]">Pal</span>
+                    </div>
+                  </div>
+                  
+                  {/* Separator */}
+                  <div className="hidden md:block w-px h-20 bg-amber-900/30"></div>
+                  
+                  {/* Bank Transfer Information - Horizontal layout */}
+                  <div className="flex-1 w-full">
+                    <h3 className="text-base md:text-lg font-semibold text-white mb-3 md:mb-4 text-center md:text-left">Virement bancaire</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 text-xs md:text-sm">
+                      <div>
+                        <p className="text-white/60 mb-1">Devise</p>
+                        <p className="text-white font-medium">Euro</p>
+                      </div>
+                      <div>
+                        <p className="text-white/60 mb-1">Bénéficiaire</p>
+                        <p className="text-white font-medium">Jeremy SEDINA</p>
+                      </div>
+                      <div className="col-span-2">
+                        <p className="text-white/60 mb-1">IBAN</p>
+                        <p className="text-white font-medium font-mono text-xs md:text-sm break-all">FR76 2823 3000 0112 1666 2365 772</p>
+                      </div>
+                      <div>
+                        <p className="text-white/60 mb-1">BIC</p>
+                        <p className="text-white font-medium font-mono text-xs">REVOFRP2</p>
+                      </div>
+                      <div>
+                        <p className="text-white/60 mb-1">BIC correspondante</p>
+                        <p className="text-white font-medium font-mono text-xs">CHASDEFX</p>
+                      </div>
+                      <div className="col-span-2">
+                        <p className="text-white/60 mb-1">Banque</p>
+                        <p className="text-white font-medium text-xs">Revolut Bank UAB</p>
+                        <p className="text-white/80 text-xs">10 avenue Kléber, 75116, Paris</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ScrollAnimation>
+        </div>
+      </section>
+
       {/* Impact & Fondation */}
       <section id="impact" className="relative bg-black/30 py-24">
         <div className="container max-w-4xl">
@@ -518,10 +579,11 @@ export default function HomePage() {
         <div className="container max-w-3xl mx-auto text-center space-y-8">
           <ScrollAnimation direction="fade" delay={0}>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[var(--font-serif)] font-bold leading-tight px-4">
-              {t('sections.cta.title')}{" "}
-              <span className="text-amber-400">{t('sections.cta.titleHighlight')}</span>
+              <span className="whitespace-nowrap">{t('sections.cta.title')}</span>
+              <br />
+              <span className="text-amber-400 whitespace-nowrap">{t('sections.cta.titleHighlight')}</span>
             </h2>
-            <p className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto px-4">
+            <p className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto px-4 mt-6 md:mt-8">
               {t('sections.cta.subtitle')}
             </p>
           </ScrollAnimation>

@@ -138,7 +138,7 @@ export default function RootLayout({
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "customer service",
-      "email": "contact@mukoma.com"
+      "email": "fondation.mukomawetu@gmail.com"
     }
   }
 

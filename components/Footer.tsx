@@ -12,7 +12,7 @@ export function Footer() {
             <Link href="/fondation" className="text-sm text-white/70 hover:text-amber-400 transition-colors">
               Fondation
             </Link>
-            <a href="mailto:contact@mukoma.com" className="text-sm text-white/70 hover:text-amber-400 transition-colors">
+            <a href="mailto:fondation.mukomawetu@gmail.com" className="text-sm text-white/70 hover:text-amber-400 transition-colors">
               Contact
             </a>
           </nav>

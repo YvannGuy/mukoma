@@ -439,7 +439,7 @@ export default function FondationPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>
-              <a href="mailto:fondation@mukoma.com">
+              <a href="mailto:fondation.mukomawetu@gmail.com">
                 <Mail className="mr-2 h-5 w-5" />
                 Nous contacter
               </a>
