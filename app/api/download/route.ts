@@ -28,7 +28,6 @@ export async function GET(request: NextRequest) {
 
     // Si EBOOK_PDF_URL est une URL externe (http/https), rediriger
     if (process.env.EBOOK_PDF_URL && process.env.EBOOK_PDF_URL.startsWith("http")) {
-      console.log("[DOWNLOAD] Redirection vers URL externe:", process.env.EBOOK_PDF_URL)
       return NextResponse.redirect(process.env.EBOOK_PDF_URL)
     }
 
@@ -41,23 +40,16 @@ export async function GET(request: NextRequest) {
     // Si c'est un chemin local, lire le fichier depuis public/ebook/
     try {
       const filePath = join(process.cwd(), "public", "ebook", pdfFileName)
-      console.log("[DOWNLOAD] Tentative de lecture du fichier:", filePath)
-      console.log("[DOWNLOAD] Nom du fichier:", pdfFileName)
-      console.log("[DOWNLOAD] process.cwd():", process.cwd())
       
       // Vérifier que le fichier existe avant de le lire
       try {
         await access(filePath, constants.F_OK)
-        console.log("[DOWNLOAD] Fichier trouvé, lecture en cours...")
       } catch (accessError) {
-        console.error("[DOWNLOAD] Fichier non accessible:", accessError)
         // Essayer avec un chemin alternatif
         const altPath = join(__dirname, "../../../public/ebook", pdfFileName)
-        console.log("[DOWNLOAD] Tentative chemin alternatif:", altPath)
         try {
           await access(altPath, constants.F_OK)
           const fileBuffer = await readFile(altPath)
-          console.log("[DOWNLOAD] Fichier lu avec succès (chemin alternatif), taille:", fileBuffer.length, "bytes")
           return new NextResponse(fileBuffer, {
             headers: {
               "Content-Type": "application/pdf",
@@ -71,7 +63,6 @@ export async function GET(request: NextRequest) {
       }
       
       const fileBuffer = await readFile(filePath)
-      console.log("[DOWNLOAD] Fichier lu avec succès, taille:", fileBuffer.length, "bytes")
 
       return new NextResponse(fileBuffer, {
         headers: {
@@ -82,8 +73,6 @@ export async function GET(request: NextRequest) {
       })
     } catch (fileError: any) {
       console.error("[DOWNLOAD] Erreur lecture fichier:", fileError.message)
-      console.error("[DOWNLOAD] Code d'erreur:", fileError.code)
-      console.error("[DOWNLOAD] Chemin tenté:", join(process.cwd(), "public", "ebook", pdfFileName))
       return NextResponse.json(
         { error: `Fichier non trouvé: ${fileError.message}` },
         { status: 404 }

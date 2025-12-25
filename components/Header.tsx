@@ -8,7 +8,7 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-amber-900/20 bg-black/30 backdrop-blur-sm">
       <div className="container flex h-16 items-center justify-between px-4">
         <Link href="/" className="text-base sm:text-xl font-[var(--font-serif)] font-bold text-white truncate max-w-[200px] sm:max-w-none">
-          L'Art de Diriger sa Nouvelle Année
+          Philippe Mukoma Weto
         </Link>
         <nav className="hidden md:flex items-center gap-4 lg:gap-6">
           <Link href="/" className="text-sm font-medium text-white/80 hover:text-amber-400 transition-colors">

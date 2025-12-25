@@ -23,7 +23,6 @@ function getEmailFrom(): string {
   if (emailFrom.includes('@gmail.com') || 
       emailFrom.includes('@yahoo.com') || 
       emailFrom.includes('@hotmail.com')) {
-    console.log(`[EMAIL] ⚠️ Domaine public détecté, utilisation de onboarding@resend.dev`)
     return 'workgraphicde@gmail.com'
   }
   
@@ -48,12 +47,7 @@ export async function sendDownloadEmail(
   }
 ) {
   try {
-    console.log(`[EMAIL] Tentative d'envoi à ${email}`)
-    console.log(`[EMAIL] RESEND_API_KEY présent: ${!!process.env.RESEND_API_KEY}`)
-    
     const emailFrom = getEmailFrom()
-    console.log(`[EMAIL] EMAIL_FROM utilisé: ${emailFrom}`)
-    console.log(`[EMAIL] URL de téléchargement: ${downloadUrl}`)
     
     // Préparer les variables pour le template
     const templateVariables: EmailTemplateVariables = {
@@ -77,7 +71,7 @@ export async function sendDownloadEmail(
     })
 
     if (error) {
-      console.error('[EMAIL] ❌ Erreur Resend:', JSON.stringify(error, null, 2))
+      console.error('[EMAIL] Erreur Resend:', error)
       let errorMessage: any = error
       if (typeof error === 'object' && error !== null) {
         if ('message' in error && typeof error.message === 'string') {
@@ -89,11 +83,9 @@ export async function sendDownloadEmail(
       return { success: false, error: errorMessage }
     }
 
-    console.log('[EMAIL] ✅ Email envoyé avec succès')
-    console.log('[EMAIL] Réponse Resend:', JSON.stringify(data, null, 2))
     return { success: true, data }
   } catch (error: any) {
-    console.error('[EMAIL] ❌ Exception lors de l\'envoi:', error.message)
+    console.error('[EMAIL] Exception lors de l\'envoi:', error.message)
     return { success: false, error: error.message }
   }
 }
