@@ -8,12 +8,8 @@ import { Heart, Target, Image as ImageIcon, Mail, X, ChevronLeft, ChevronRight, 
 import Image from "next/image"
 import { ImageModal } from "@/components/ImageModal"
 
-export default function FondationPage() {
-  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
-  const [filter, setFilter] = useState<'all' | 'images' | 'videos'>('all')
-  const [itemsToShow, setItemsToShow] = useState(24)
-
-  const imageFiles = [
+// Définir les fichiers en dehors du composant pour éviter les recréations
+const imageFiles = [
     "WhatsApp Image 2025-12-25 at 13.16.47 (1).jpeg",
     "WhatsApp Image 2025-12-25 at 13.16.47.jpeg",
     "WhatsApp Image 2025-12-25 at 13.16.48 (1).jpeg",
@@ -104,9 +100,9 @@ export default function FondationPage() {
     "WhatsApp Image 2025-12-25 at 13.32.44.jpeg",
     "WhatsApp Image 2025-12-25 at 13.32.45 (1).jpeg",
     "WhatsApp Image 2025-12-25 at 13.32.45.jpeg",
-  ]
+]
 
-  const videoFiles = [
+const videoFiles = [
     "WhatsApp Video 2025-12-25 at 13.25.20.mp4",
     "WhatsApp Video 2025-12-25 at 13.25.24.mp4",
     "WhatsApp Video 2025-12-25 at 13.25.26.mp4",
@@ -115,14 +111,19 @@ export default function FondationPage() {
     "WhatsApp Video 2025-12-25 at 13.25.36.mp4",
     "WhatsApp Video 2025-12-25 at 13.25.38.mp4",
     "WhatsApp Video 2025-12-25 at 13.25.59.mp4",
-  ]
+]
+
+export default function FondationPage() {
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
+  const [filter, setFilter] = useState<'all' | 'images' | 'videos'>('all')
+  const [itemsToShow, setItemsToShow] = useState(24)
 
   // Créer un tableau mixte avec type
   const allItems = useMemo(() => {
     const images = imageFiles.map((file, idx) => ({ type: 'image' as const, file, index: idx }))
     const videos = videoFiles.map((file, idx) => ({ type: 'video' as const, file, index: idx + imageFiles.length }))
     return [...images, ...videos]
-  }, [imageFiles, videoFiles])
+  }, [])
 
   const filteredItems = useMemo(() => {
     if (filter === 'all') return allItems
