@@ -18,6 +18,43 @@ export default function HomePage() {
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false)
   const [selectedProductId, setSelectedProductId] = useState("ebook-standard")
 
+  // Fonction pour scroller vers la section suivante
+  const scrollToNextSection = (currentSectionId: string) => {
+    const sections = [
+      'hero',
+      'qui-sadresse',
+      'decouvrir',
+      'offres',
+      'acheter-ebook',
+      'impact',
+      'faq',
+      'acheter'
+    ]
+    const currentIndex = sections.indexOf(currentSectionId)
+    if (currentIndex < sections.length - 1) {
+      const nextSectionId = sections[currentIndex + 1]
+      const nextSection = document.querySelector(`#${nextSectionId}`) || 
+                         document.querySelector(`section:nth-of-type(${currentIndex + 2})`)
+      if (nextSection) {
+        nextSection.scrollIntoView({ behavior: 'smooth' })
+      }
+    }
+  }
+
+  // Composant Chevron réutilisable
+  const SectionChevron = ({ sectionId }: { sectionId: string }) => (
+    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30">
+      <button
+        onClick={() => scrollToNextSection(sectionId)}
+        className="flex flex-col items-center text-amber-400/80 hover:text-amber-400 transition-colors cursor-pointer group"
+        aria-label="Défiler vers le bas"
+      >
+        <ChevronDown className="h-8 w-8 animate-bounce" style={{ animationDuration: '2s' }} />
+        <ChevronDown className="h-6 w-6 animate-bounce" style={{ marginTop: '-12px', animationDuration: '2s', animationDelay: '0.2s' }} />
+      </button>
+    </div>
+  )
+
   return (
     <div className="flex flex-col bg-[#1a1612] text-white min-h-screen overflow-x-hidden">
       <ImageModal
@@ -32,7 +69,7 @@ export default function HomePage() {
         productId={selectedProductId}
       />
       {/* Hero Section */}
-      <section className="relative pt-20 md:pt-24 pb-0 overflow-visible min-h-[90vh]">
+      <section id="hero" className="relative pt-20 md:pt-24 pb-0 overflow-visible min-h-[90vh]">
         {/* Dégradé de fond */}
         <div className="absolute inset-0 opacity-100 -z-10" style={{ background: 'radial-gradient(circle at 50% 30%, #2d2823 0%, #1a1612 40%, #1a1612 100%)' }}></div>
         <div className="container relative z-10">
@@ -105,26 +142,11 @@ export default function HomePage() {
             />
           </div>
         </div>
-        {/* Chevrons animés pour scroll automatique */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30">
-          <button
-            onClick={() => {
-              const nextSection = document.querySelector('#qui-sadresse')
-              if (nextSection) {
-                nextSection.scrollIntoView({ behavior: 'smooth' })
-              }
-            }}
-            className="flex flex-col items-center text-amber-400/80 hover:text-amber-400 transition-colors cursor-pointer group"
-            aria-label="Défiler vers le bas"
-          >
-            <ChevronDown className="h-8 w-8 animate-bounce" style={{ animationDuration: '2s' }} />
-            <ChevronDown className="h-6 w-6 animate-bounce" style={{ marginTop: '-12px', animationDuration: '2s', animationDelay: '0.2s' }} />
-          </button>
-        </div>
+        <SectionChevron sectionId="hero" />
       </section>
 
       {/* À qui s'adresse ce livre */}
-      <section id="qui-sadresse" className="bg-black/30 py-24">
+      <section id="qui-sadresse" className="relative bg-black/30 py-24">
         <div className="container">
           <ScrollAnimation direction="fade">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4 px-4">
@@ -197,10 +219,11 @@ export default function HomePage() {
             </ScrollAnimation>
           </div>
         </div>
+        <SectionChevron sectionId="qui-sadresse" />
       </section>
 
       {/* Ce que vous allez découvrir */}
-      <section className="container py-24">
+      <section id="decouvrir" className="relative container py-24">
         <ScrollAnimation direction="fade">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-12 sm:mb-16 px-4">
             Ce que vous allez découvrir
@@ -240,10 +263,11 @@ export default function HomePage() {
             </div>
           </ScrollAnimation>
         </div>
+        <SectionChevron sectionId="decouvrir" />
       </section>
 
       {/* Aperçu du livre */}
-      <section id="offres" className="bg-black/30 py-24">
+      <section id="offres" className="relative bg-black/30 py-24">
         <div className="container">
           <ScrollAnimation direction="up">
             <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -307,10 +331,11 @@ export default function HomePage() {
           </div>
           </ScrollAnimation>
         </div>
+        <SectionChevron sectionId="offres" />
       </section>
 
       {/* Offres */}
-      <section id="acheter-ebook" className="container py-24">
+      <section id="acheter-ebook" className="relative container py-24">
         <ScrollAnimation direction="fade">
           <h2 className="text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4">
             Offre
@@ -368,10 +393,11 @@ export default function HomePage() {
             </Card>
           </ScrollAnimation>
         </div>
+        <SectionChevron sectionId="acheter-ebook" />
       </section>
 
       {/* Impact & Fondation */}
-      <section className="bg-black/30 py-24">
+      <section id="impact" className="relative bg-black/30 py-24">
         <div className="container max-w-4xl">
           <ScrollAnimation direction="fade">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4 px-4">
@@ -412,10 +438,11 @@ export default function HomePage() {
           </Card>
           </ScrollAnimation>
         </div>
+        <SectionChevron sectionId="impact" />
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="container py-16 sm:py-24">
+      <section id="faq" className="relative container py-16 sm:py-24">
         <div className="max-w-3xl mx-auto px-4">
           <ScrollAnimation direction="fade">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-12 sm:mb-16">
@@ -451,6 +478,7 @@ export default function HomePage() {
           </Accordion>
           </ScrollAnimation>
         </div>
+        <SectionChevron sectionId="faq" />
       </section>
 
       {/* CTA Final */}
