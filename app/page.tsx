@@ -32,53 +32,61 @@ export default function HomePage() {
         productId={selectedProductId}
       />
       {/* Hero Section */}
-      <section className="relative container pt-20 md:pt-24 pb-0">
+      <section className="relative pt-20 md:pt-24 pb-0 overflow-visible min-h-[90vh]">
         {/* Dégradé de fond */}
         <div className="absolute inset-0 opacity-100 -z-10" style={{ background: 'radial-gradient(circle at 50% 30%, #2d2823 0%, #1a1612 40%, #1a1612 100%)' }}></div>
-        <div className="relative grid md:grid-cols-2 gap-12 items-center">
-          {/* Left side - Text content */}
-          <div className="space-y-6">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-[var(--font-serif)] font-bold leading-tight">
-              L'Art de Diriger sa{" "}
-              <span className="text-amber-400">Nouvelle Année</span>
-            </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-white/80 leading-relaxed">
-              Reprendre le contrôle de sa vie, de ses décisions et de sa destinée
-            </p>
-            <p className="text-base sm:text-lg text-white/60">
-              Par Philippe Mukoma Weto
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
-              <Button 
-                onClick={() => {
-                  setSelectedProductId("ebook-standard")
-                  setIsEmailModalOpen(true)
-                }}
-                size="lg" 
-                className="bg-amber-500 hover:bg-amber-600 text-black font-semibold text-lg px-8 py-6"
-              >
-                Acheter l'ebook
-              </Button>
-              <Link href="/fondation">
+        <div className="container relative z-10">
+          <div className="relative grid md:grid-cols-2 gap-12 items-end">
+            {/* Left side - Text content */}
+            <div className="space-y-6 pb-24 md:pb-32 relative z-20">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-[var(--font-serif)] font-bold leading-tight">
+                L'Art de Diriger sa{" "}
+                <span className="text-amber-400">Nouvelle Année</span>
+              </h1>
+              <p className="text-lg sm:text-xl md:text-2xl text-white/80 leading-relaxed">
+                Reprendre le contrôle de sa vie, de ses décisions et de sa destinée
+              </p>
+              <p className="text-base sm:text-lg text-white/60">
+                Par Philippe Mukoma Weto
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
                 <Button 
+                  onClick={() => {
+                    setSelectedProductId("ebook-standard")
+                    setIsEmailModalOpen(true)
+                  }}
                   size="lg" 
-                  variant="outline" 
-                  className="border-amber-400/50 text-amber-400 hover:bg-amber-400/10 text-lg px-8 py-6"
+                  className="bg-amber-500 hover:bg-amber-600 text-black font-semibold text-lg px-8 py-6"
                 >
-                  Découvrir la Fondation
+                  Acheter l'ebook
                 </Button>
-              </Link>
+                <Link href="/fondation">
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="border-amber-400/50 text-amber-400 hover:bg-amber-400/10 text-lg px-8 py-6"
+                  >
+                    Découvrir la Fondation
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
-          {/* Right side - Author photo */}
-          <div className="relative w-full max-w-md mx-auto">
+        </div>
+        {/* Right side - Book cover - très grande et débordante */}
+        <div className="absolute right-0 top-0 bottom-0 w-[60vw] md:w-[55vw] lg:w-[50vw] flex items-end justify-end pr-0" style={{ zIndex: 1 }}>
+          <div className="relative w-full h-full flex items-end justify-center">
             <Image
-              src="/images/hero/MUKO.png"
-              alt="Philippe Mukoma Weto"
-              width={400}
-              height={600}
-              className="w-full h-auto rounded-lg"
-              style={{ objectFit: 'contain' }}
+              src="/images/book/cover1.png"
+              alt="Couverture du livre L'Art de Diriger sa Nouvelle Année"
+              width={4000}
+              height={6000}
+              className="h-[120vh] w-auto rounded-lg"
+              style={{ 
+                objectFit: 'contain',
+                maxWidth: 'none',
+                transform: 'translateY(20%)'
+              }}
               priority
             />
           </div>
