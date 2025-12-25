@@ -12,11 +12,13 @@ import { ImageSlider } from "@/components/ImageSlider"
 import { ImageModal } from "@/components/ImageModal"
 import { EmailModal } from "@/components/EmailModal"
 import { ScrollAnimation } from "@/components/ScrollAnimation"
+import { useLanguage } from "@/lib/LanguageContext"
 
 export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false)
   const [selectedProductId, setSelectedProductId] = useState("ebook-standard")
+  const { t } = useLanguage()
 
   // Fonction pour scroller vers la section suivante
   const scrollToNextSection = (currentSectionId: string) => {
@@ -47,7 +49,7 @@ export default function HomePage() {
       <button
         onClick={() => scrollToNextSection(sectionId)}
         className="flex flex-col items-center text-amber-400/80 hover:text-amber-400 transition-colors cursor-pointer group"
-        aria-label="Défiler vers le bas"
+        aria-label={t('chevron.ariaLabel')}
       >
         <ChevronDown className="h-8 w-8 animate-bounce" style={{ animationDuration: '2s' }} />
         <ChevronDown className="h-6 w-6 animate-bounce" style={{ marginTop: '-12px', animationDuration: '2s', animationDelay: '0.2s' }} />
@@ -77,14 +79,14 @@ export default function HomePage() {
             {/* Left side - Text content */}
             <div className="space-y-6 pb-24 md:pb-32 pt-8 md:pt-24 relative z-20">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-[var(--font-serif)] font-bold leading-tight">
-                L'Art de Diriger sa{" "}
-                <span className="text-amber-400">Nouvelle Année</span>
+                {t('hero.title')}{" "}
+                <span className="text-amber-400">{t('hero.titleHighlight')}</span>
               </h1>
               <p className="text-lg sm:text-xl md:text-2xl text-white/80 leading-relaxed">
-                Reprendre le contrôle de sa vie, de ses décisions et de sa destinée
+                {t('hero.subtitle')}
               </p>
               <p className="text-base sm:text-lg text-white/60">
-                Par Philippe Mukoma Weto
+                {t('hero.author')}
               </p>
               <div className="pt-2 px-4 sm:px-0">
                 <div className="w-full max-w-[420px] mx-auto space-y-3 sm:space-y-0 sm:flex sm:gap-4 md:mx-0 md:max-w-none md:justify-start">
@@ -96,7 +98,7 @@ export default function HomePage() {
                     size="lg" 
                     className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-black font-semibold text-lg px-8 py-6"
                   >
-                    Acheter l'ebook
+                    {t('hero.buyEbook')}
                   </Button>
                   <Link href="/fondation" className="block w-full sm:w-auto">
                     <Button 
@@ -104,7 +106,7 @@ export default function HomePage() {
                       variant="outline" 
                       className="w-full sm:w-auto border-amber-400/50 text-amber-400 hover:bg-amber-400/10 text-lg px-8 py-6"
                     >
-                      Découvrir la Fondation
+                      {t('hero.discoverFoundation')}
                     </Button>
                   </Link>
                 </div>
@@ -150,10 +152,10 @@ export default function HomePage() {
         <div className="container">
           <ScrollAnimation direction="fade">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4 px-4">
-              À qui s'adresse ce livre
+              {t('sections.whoIsItFor.title')}
             </h2>
             <p className="text-lg sm:text-xl text-center text-white/70 mb-12 sm:mb-16 max-w-3xl mx-auto px-4">
-              Pour ceux qui refusent de subir et choisissent de diriger leur destinée
+              {t('sections.whoIsItFor.subtitle')}
             </p>
           </ScrollAnimation>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -163,11 +165,11 @@ export default function HomePage() {
                   <div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
                     <Eye className="h-8 w-8 text-amber-400" />
                   </div>
-                  <CardTitle className="text-xl font-semibold text-white">Clarté de vision</CardTitle>
+                  <CardTitle className="text-xl font-semibold text-white">{t('cards.clarity.title')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-white/70 text-center">
-                    Développer une vision claire de votre avenir et des étapes pour l'atteindre.
+                    {t('cards.clarity.description')}
                   </p>
                 </CardContent>
               </Card>
@@ -178,11 +180,11 @@ export default function HomePage() {
                   <div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
                     <Crown className="h-8 w-8 text-amber-400" />
                   </div>
-                  <CardTitle className="text-xl font-semibold text-white">Leadership personnel</CardTitle>
+                  <CardTitle className="text-xl font-semibold text-white">{t('cards.leadership.title')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-white/70 text-center">
-                    Maîtriser l'art de se diriger avant de prétendre diriger les autres.
+                    {t('cards.leadership.description')}
                   </p>
                 </CardContent>
               </Card>
@@ -193,11 +195,11 @@ export default function HomePage() {
                   <div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
                     <Shield className="h-8 w-8 text-amber-400" />
                   </div>
-                  <CardTitle className="text-xl font-semibold text-white">Discipline intérieure</CardTitle>
+                  <CardTitle className="text-xl font-semibold text-white">{t('cards.discipline.title')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-white/70 text-center">
-                    Forger une discipline qui transforme les intentions en actions concrètes.
+                    {t('cards.discipline.description')}
                   </p>
                 </CardContent>
               </Card>
@@ -208,11 +210,11 @@ export default function HomePage() {
                   <div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
                     <Compass className="h-8 w-8 text-amber-400" />
                   </div>
-                  <CardTitle className="text-xl font-semibold text-white">Direction spirituelle</CardTitle>
+                  <CardTitle className="text-xl font-semibold text-white">{t('cards.direction.title')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-white/70 text-center">
-                    Aligner vos objectifs avec votre mission spirituelle profonde.
+                    {t('cards.direction.description')}
                   </p>
                 </CardContent>
               </Card>
@@ -226,39 +228,39 @@ export default function HomePage() {
       <section id="decouvrir" className="relative container py-24">
         <ScrollAnimation direction="fade">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-12 sm:mb-16 px-4">
-            Ce que vous allez découvrir
+            {t('sections.whatYouWillDiscover.title')}
           </h2>
         </ScrollAnimation>
         <div className="grid md:grid-cols-2 gap-8 sm:gap-12 max-w-5xl mx-auto px-4">
           <ScrollAnimation direction="left" delay={0}>
             <div className="space-y-2">
-              <h3 className="text-2xl font-semibold text-amber-400 mb-3">Vision</h3>
+              <h3 className="text-2xl font-semibold text-amber-400 mb-3">{t('features.vision.title')}</h3>
               <p className="text-lg text-white/80 leading-relaxed">
-                Comment développer une vision claire et inspirante qui guide chacune de vos décisions et transforme votre rapport au temps et aux priorités.
+                {t('features.vision.description')}
               </p>
             </div>
           </ScrollAnimation>
           <ScrollAnimation direction="right" delay={100}>
             <div className="space-y-2">
-              <h3 className="text-2xl font-semibold text-amber-400 mb-3">Maîtrise intérieure</h3>
+              <h3 className="text-2xl font-semibold text-amber-400 mb-3">{t('features.mastery.title')}</h3>
               <p className="text-lg text-white/80 leading-relaxed">
-                Les techniques pour développer une discipline personnelle inébranlable et transformer vos habitudes en forces de réussite.
+                {t('features.mastery.description')}
               </p>
             </div>
           </ScrollAnimation>
           <ScrollAnimation direction="left" delay={200}>
             <div className="space-y-2">
-              <h3 className="text-2xl font-semibold text-amber-400 mb-3">Pensée gouvernante</h3>
+              <h3 className="text-2xl font-semibold text-amber-400 mb-3">{t('features.thinking.title')}</h3>
               <p className="text-lg text-white/80 leading-relaxed">
-                Les principes mentaux qui séparent les leaders des suiveurs, et comment cultiver une pensée stratégique au quotidien.
+                {t('features.thinking.description')}
               </p>
             </div>
           </ScrollAnimation>
           <ScrollAnimation direction="right" delay={300}>
             <div className="space-y-2">
-              <h3 className="text-2xl font-semibold text-amber-400 mb-3">Alignement avec Dieu</h3>
+              <h3 className="text-2xl font-semibold text-amber-400 mb-3">{t('features.alignment.title')}</h3>
               <p className="text-lg text-white/80 leading-relaxed">
-                Comment harmoniser vos ambitions personnelles avec votre mission spirituelle pour une vie d'impact et de sens profond.
+                {t('features.alignment.description')}
               </p>
             </div>
           </ScrollAnimation>
@@ -296,7 +298,7 @@ export default function HomePage() {
             {/* Right side - Features */}
             <div className="space-y-8">
               <h2 className="text-4xl md:text-5xl font-[var(--font-serif)] font-bold">
-                Aperçu du livre
+                {t('sections.bookPreview.title')}
               </h2>
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
@@ -304,8 +306,8 @@ export default function HomePage() {
                     <Book className="h-6 w-6 text-amber-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-2">Format Ebook</h3>
-                    <p className="text-white/70">PDF et EPUB compatibles tous appareils</p>
+                    <h3 className="text-xl font-semibold text-white mb-2">{t('bookFeatures.format.title')}</h3>
+                    <p className="text-white/70">{t('bookFeatures.format.description')}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -313,8 +315,8 @@ export default function HomePage() {
                     <Lock className="h-6 w-6 text-amber-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-2">Accès sécurisé</h3>
-                    <p className="text-white/70">Téléchargement protégé et personnel</p>
+                    <h3 className="text-xl font-semibold text-white mb-2">{t('bookFeatures.secure.title')}</h3>
+                    <p className="text-white/70">{t('bookFeatures.secure.description')}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -322,8 +324,8 @@ export default function HomePage() {
                     <Zap className="h-6 w-6 text-amber-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-2">Livraison instantanée</h3>
-                    <p className="text-white/70">Accès immédiat après paiement</p>
+                    <h3 className="text-xl font-semibold text-white mb-2">{t('bookFeatures.instant.title')}</h3>
+                    <p className="text-white/70">{t('bookFeatures.instant.description')}</p>
                   </div>
                 </div>
               </div>
@@ -338,10 +340,10 @@ export default function HomePage() {
       <section id="acheter-ebook" className="relative container py-24">
         <ScrollAnimation direction="fade">
           <h2 className="text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4">
-            Votre ebook
+            {t('sections.ebook.title')}
           </h2>
           <p className="text-xl text-center text-white/70 mb-12">
-            Commandez votre ebook et recevez-le instantanément
+            {t('sections.ebook.subtitle')}
           </p>
         </ScrollAnimation>
         <div className="grid md:grid-cols-2 gap-12 items-stretch max-w-5xl mx-auto mb-12">
@@ -362,25 +364,25 @@ export default function HomePage() {
           <ScrollAnimation direction="right" delay={100}>
             <Card className="bg-[#1a1612] border-2 border-amber-400/50 w-full h-full flex flex-col max-w-md mx-auto md:mx-0">
               <CardHeader className="flex-shrink-0">
-                <CardTitle className="text-2xl font-semibold text-white text-center">Ebook complet</CardTitle>
+                <CardTitle className="text-2xl font-semibold text-white text-center">{t('sections.ebook.cardTitle')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6 flex-1 flex flex-col justify-center pt-4">
                 <div className="text-center">
-                  <span className="text-7xl font-bold text-amber-500">27</span>
+                  <span className="text-7xl font-bold text-amber-500">{t('sections.ebook.price')}</span>
                   <span className="text-5xl font-bold text-amber-500 ml-1">€</span>
                 </div>
                 <ul className="space-y-3 mt-12">
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-                    <span className="text-white/80">Ebook complet PDF + EPUB</span>
+                    <span className="text-white/80">{t('sections.ebook.features.format')}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-                    <span className="text-white/80">Accès à vie</span>
+                    <span className="text-white/80">{t('sections.ebook.features.lifetime')}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-                    <span className="text-white/80">Téléchargement immédiat</span>
+                    <span className="text-white/80">{t('sections.ebook.features.instant')}</span>
                   </li>
                 </ul>
                 <Button 
@@ -392,7 +394,7 @@ export default function HomePage() {
                   }}
                   className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold py-6"
                 >
-                  Acheter maintenant
+                  {t('sections.ebook.buyNow')}
                 </Button>
               </CardContent>
             </Card>
@@ -406,10 +408,10 @@ export default function HomePage() {
         <div className="container max-w-4xl">
           <ScrollAnimation direction="fade">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-4 px-4">
-              Impact & Fondation
+              {t('sections.impact.title')}
             </h2>
             <p className="text-lg sm:text-xl text-center text-white/70 mb-12 px-4">
-              Votre achat soutient la Fondation Philippe Mukoma et ses actions pour l'éducation et le leadership en Afrique
+              {t('sections.impact.subtitle')}
             </p>
           </ScrollAnimation>
           <ScrollAnimation direction="up" delay={200}>
@@ -425,16 +427,16 @@ export default function HomePage() {
                   />
                 </div>
                 <div className="flex-1 space-y-4">
-                  <h3 className="text-2xl font-semibold text-white">Fondation Philippe Mukoma</h3>
+                  <h3 className="text-2xl font-semibold text-white">{t('foundation.title')}</h3>
                   <p className="text-white/80 leading-relaxed">
-                    Notre mission est de former la prochaine génération de leaders africains en leur donnant accès à une éducation de qualité et aux outils de développement personnel nécessaires pour transformer leurs communautés.
+                    {t('foundation.description')}
                   </p>
                   <Link href="/fondation">
                     <Button 
                       variant="outline" 
                       className="border-amber-400/50 text-amber-400 hover:bg-amber-400/10"
                     >
-                      Découvrir nos actions
+                      {t('foundation.discover')}
                     </Button>
                   </Link>
                 </div>
@@ -451,33 +453,33 @@ export default function HomePage() {
         <div className="max-w-3xl mx-auto px-4">
           <ScrollAnimation direction="fade">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-[var(--font-serif)] font-bold text-center mb-12 sm:mb-16">
-              Questions fréquentes
+              {t('sections.faq.title')}
             </h2>
           </ScrollAnimation>
           <ScrollAnimation direction="up" delay={200}>
             <Accordion type="single" collapsible className="w-full space-y-4">
             <AccordionItem value="item-1" className="border-amber-900/30 bg-[#1a1612] rounded-lg px-6">
               <AccordionTrigger className="text-white hover:text-amber-400">
-                Comment accéder à l'ebook après achat ?
+                {t('faq.q1.question')}
               </AccordionTrigger>
               <AccordionContent className="text-white/70">
-                Après votre achat, vous recevrez un email avec un lien sécurisé pour télécharger votre ebook. Vous pouvez également accéder directement depuis la page de téléchargement en utilisant l'email utilisé lors de l'achat.
+                {t('faq.q1.answer')}
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2" className="border-amber-900/30 bg-[#1a1612] rounded-lg px-6">
               <AccordionTrigger className="text-white hover:text-amber-400">
-                L'ebook est-il compatible avec tous les appareils ?
+                {t('faq.q2.question')}
               </AccordionTrigger>
               <AccordionContent className="text-white/70">
-                Oui, l'ebook est disponible en format PDF et EPUB, compatibles avec tous les appareils : ordinateur, tablette, smartphone et liseuse électronique.
+                {t('faq.q2.answer')}
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-3" className="border-amber-900/30 bg-[#1a1612] rounded-lg px-6">
               <AccordionTrigger className="text-white hover:text-amber-400">
-                Puis-je offrir ce livre à quelqu'un ?
+                {t('faq.q3.question')}
               </AccordionTrigger>
               <AccordionContent className="text-white/70">
-                Chaque achat est personnel et lié à l'email utilisé lors de l'achat. Les liens de téléchargement sont sécurisés et limités pour éviter le partage non autorisé. Pour offrir le livre, vous pouvez effectuer un achat en utilisant l'email du destinataire.
+                {t('faq.q3.answer')}
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -491,11 +493,11 @@ export default function HomePage() {
         <div className="container max-w-3xl mx-auto text-center space-y-8">
           <ScrollAnimation direction="fade" delay={0}>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[var(--font-serif)] font-bold leading-tight px-4">
-              L'année ne décide rien.{" "}
-              <span className="text-amber-400">Le maître, c'est toi.</span>
+              {t('sections.cta.title')}{" "}
+              <span className="text-amber-400">{t('sections.cta.titleHighlight')}</span>
             </h2>
             <p className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto px-4">
-              Ne laissez pas une année de plus passer sans prendre le contrôle de votre destinée. Le moment d'agir, c'est maintenant.
+              {t('sections.cta.subtitle')}
             </p>
           </ScrollAnimation>
           <ScrollAnimation direction="up" delay={300}>
@@ -509,7 +511,7 @@ export default function HomePage() {
             size="lg" 
             className="bg-amber-500 hover:bg-amber-600 text-black font-semibold text-lg px-12 py-6"
           >
-            Acheter maintenant
+            {t('sections.ebook.buyNow')}
           </Button>
           </ScrollAnimation>
         </div>

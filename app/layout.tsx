@@ -4,6 +4,7 @@ import "./globals.css"
 import { Header } from "@/components/Header"
 import { Footer } from "@/components/Footer"
 import { ScrollToTop } from "@/components/ScrollToTop"
+import { LanguageProvider } from "@/lib/LanguageContext"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 const playfair = Playfair_Display({ 
@@ -161,10 +162,12 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} ${playfair.variable} ${inter.className} bg-[#1a1612] text-white`} suppressHydrationWarning>
-        <Header />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
-        <ScrollToTop />
+        <LanguageProvider>
+          <Header />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+          <ScrollToTop />
+        </LanguageProvider>
       </body>
     </html>
   )
