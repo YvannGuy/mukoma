@@ -19,7 +19,7 @@ export default function HomePage() {
   const [selectedProductId, setSelectedProductId] = useState("ebook-standard")
 
   return (
-    <div className="flex flex-col bg-[#1a1612] text-white min-h-screen">
+    <div className="flex flex-col bg-[#1a1612] text-white min-h-screen overflow-x-hidden">
       <ImageModal
         src="/images/book/SIMULATION.jpg"
         alt="Aperçu du livre en 3D"
@@ -36,9 +36,9 @@ export default function HomePage() {
         {/* Dégradé de fond */}
         <div className="absolute inset-0 opacity-100 -z-10" style={{ background: 'radial-gradient(circle at 50% 30%, #2d2823 0%, #1a1612 40%, #1a1612 100%)' }}></div>
         <div className="container relative z-10">
-          <div className="relative grid md:grid-cols-2 gap-12 items-end">
+          <div className="relative grid md:grid-cols-2 gap-12 items-start md:items-end">
             {/* Left side - Text content */}
-            <div className="space-y-6 pb-24 md:pb-32 relative z-20">
+            <div className="space-y-6 pb-24 md:pb-32 pt-8 md:pt-24 relative z-20">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-[var(--font-serif)] font-bold leading-tight">
                 L'Art de Diriger sa{" "}
                 <span className="text-amber-400">Nouvelle Année</span>
@@ -49,32 +49,46 @@ export default function HomePage() {
               <p className="text-base sm:text-lg text-white/60">
                 Par Philippe Mukoma Weto
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
-                <Button 
-                  onClick={() => {
-                    setSelectedProductId("ebook-standard")
-                    setIsEmailModalOpen(true)
-                  }}
-                  size="lg" 
-                  className="bg-amber-500 hover:bg-amber-600 text-black font-semibold text-lg px-8 py-6"
-                >
-                  Acheter l'ebook
-                </Button>
-                <Link href="/fondation">
+              <div className="pt-2 px-4 sm:px-0">
+                <div className="mx-auto w-full max-w-[420px] space-y-3 sm:space-y-0 sm:flex sm:gap-4">
                   <Button 
+                    onClick={() => {
+                      setSelectedProductId("ebook-standard")
+                      setIsEmailModalOpen(true)
+                    }}
                     size="lg" 
-                    variant="outline" 
-                    className="border-amber-400/50 text-amber-400 hover:bg-amber-400/10 text-lg px-8 py-6"
+                    className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold text-lg px-8 py-6"
                   >
-                    Découvrir la Fondation
+                    Acheter l'ebook
                   </Button>
-                </Link>
+                  <Link href="/fondation" className="block w-full">
+                    <Button 
+                      size="lg" 
+                      variant="outline" 
+                      className="w-full border-amber-400/50 text-amber-400 hover:bg-amber-400/10 text-lg px-8 py-6"
+                    >
+                      Découvrir la Fondation
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+              {/* Mobile - Book cover */}
+              <div className="md:hidden mt-8 flex justify-center">
+                <div className="relative w-full max-w-[420px] h-[520px] overflow-hidden rounded-lg">
+                  <Image
+                    src="/images/book/cover1.png"
+                    alt="Couverture du livre L'Art de Diriger sa Nouvelle Année"
+                    fill
+                    className="object-cover scale-[1.18] drop-shadow-2xl"
+                    priority
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-        {/* Right side - Book cover - très grande et débordante */}
-        <div className="absolute right-0 top-0 bottom-0 w-[60vw] md:w-[55vw] lg:w-[50vw] flex items-end justify-end pr-0" style={{ zIndex: 1 }}>
+        {/* Desktop - Right side - Book cover - très grande et débordante */}
+        <div className="hidden md:block absolute right-0 top-0 bottom-0 w-[55vw] lg:w-[50vw] flex items-end justify-end pr-0" style={{ zIndex: 1 }}>
           <div className="relative w-full h-full flex items-end justify-center">
             <Image
               src="/images/book/cover1.png"
