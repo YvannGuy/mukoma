@@ -344,7 +344,7 @@ export default function HomePage() {
             Commandez votre ebook et recevez-le instantanément
           </p>
         </ScrollAnimation>
-        <div className="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto mb-12">
+        <div className="grid md:grid-cols-2 gap-12 items-stretch max-w-5xl mx-auto mb-12">
           {/* Left side - Book cover slider */}
           <ScrollAnimation direction="left" delay={0}>
             <ImageSlider
@@ -360,13 +360,16 @@ export default function HomePage() {
           </ScrollAnimation>
           {/* Right side - Pricing card */}
           <ScrollAnimation direction="right" delay={100}>
-            <Card className="bg-[#1a1612] border-2 border-amber-400/50 w-full">
-              <CardHeader>
+            <Card className="bg-[#1a1612] border-2 border-amber-400/50 w-full h-full flex flex-col max-w-md mx-auto md:mx-0">
+              <CardHeader className="flex-shrink-0">
                 <CardTitle className="text-2xl font-semibold text-white text-center">Ebook complet</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="text-5xl font-bold text-white text-center">27€</div>
-                <ul className="space-y-3">
+              <CardContent className="space-y-6 flex-1 flex flex-col justify-center pt-4">
+                <div className="text-center">
+                  <span className="text-7xl font-bold text-amber-500">27</span>
+                  <span className="text-5xl font-bold text-amber-500 ml-1">€</span>
+                </div>
+                <ul className="space-y-3 mt-12">
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
                     <span className="text-white/80">Ebook complet PDF + EPUB</span>
