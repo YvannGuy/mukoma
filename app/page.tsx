@@ -90,16 +90,14 @@ export default function HomePage() {
               </p>
               <div className="pt-2 px-4 sm:px-0">
                 <div className="w-full max-w-[420px] mx-auto space-y-3 sm:space-y-0 sm:flex sm:gap-4 md:mx-0 md:max-w-none md:justify-start">
-                  <Button 
-                    onClick={() => {
-                      setSelectedProductId("ebook-standard")
-                      setIsEmailModalOpen(true)
-                    }}
-                    size="lg" 
-                    className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-black font-semibold text-lg px-8 py-6"
-                  >
-                    {t('hero.buyEbook')}
-                  </Button>
+                  <Link href="#acheter-ebook" className="block w-full sm:w-auto">
+                    <Button 
+                      size="lg" 
+                      className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-black font-semibold text-lg px-8 py-6"
+                    >
+                      {t('hero.buyEbook')}
+                    </Button>
+                  </Link>
                   <Link href="/fondation" className="block w-full sm:w-auto">
                     <Button 
                       size="lg" 
