@@ -50,22 +50,22 @@ export default function HomePage() {
                 Par Philippe Mukoma Weto
               </p>
               <div className="pt-2 px-4 sm:px-0">
-                <div className="mx-auto w-full max-w-[420px] space-y-3 sm:space-y-0 sm:flex sm:gap-4">
+                <div className="w-full max-w-[420px] mx-auto space-y-3 sm:space-y-0 sm:flex sm:gap-4 md:mx-0 md:max-w-none md:justify-start">
                   <Button 
                     onClick={() => {
                       setSelectedProductId("ebook-standard")
                       setIsEmailModalOpen(true)
                     }}
                     size="lg" 
-                    className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold text-lg px-8 py-6"
+                    className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-black font-semibold text-lg px-8 py-6"
                   >
                     Acheter l'ebook
                   </Button>
-                  <Link href="/fondation" className="block w-full">
+                  <Link href="/fondation" className="block w-full sm:w-auto">
                     <Button 
                       size="lg" 
                       variant="outline" 
-                      className="w-full border-amber-400/50 text-amber-400 hover:bg-amber-400/10 text-lg px-8 py-6"
+                      className="w-full sm:w-auto border-amber-400/50 text-amber-400 hover:bg-amber-400/10 text-lg px-8 py-6"
                     >
                       Découvrir la Fondation
                     </Button>
